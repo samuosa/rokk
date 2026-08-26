@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* 1:1 port of the Stitch token set (project/uploads/stitch_rokk_punk_x_tekk/
+   DESIGN.md front matter), previously split across tailwind.config.ts and
+   _tokens.scss. Tailwind v4 reads these directly — there is no config file
+   and no SCSS layer any more. */
+@theme {
+  --color-primary: #000000;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1b1b1b;
+  --color-on-primary-container: #848484;
+  --color-inverse-primary: #c6c6c6;
+  --color-secondary: #5d5f5f;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #dfe0e0;
+  --color-on-secondary-container: #616363;
+  --color-tertiary: #000000;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #410000;
+  --color-on-tertiary-container: #ff291a;
+  --color-tertiary-fixed: #ffdad4;
+  --color-tertiary-fixed-dim: #ffb4a8;
+  --color-accent: #ff291a;
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-background: #f9f9f9;
+  --color-on-background: #1b1b1b;
+  --color-surface: #f9f9f9;
+  --color-surface-dim: #dadada;
+  --color-surface-bright: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f3f3f3;
+  --color-surface-container: #eeeeee;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-container-highest: #e2e2e2;
+  --color-surface-variant: #e2e2e2;
+  --color-on-surface: #1b1b1b;
+  --color-on-surface-variant: #4c4546;
+  --color-inverse-surface: #303030;
+  --color-inverse-on-surface: #f1f1f1;
+  --color-outline: #7e7576;
+  --color-outline-variant: #cfc4c5;
+
+  --font-display: "Anybody", sans-serif;
+  --font-headline: "Anybody", sans-serif;
+  --font-body: "Hanken Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --text-display-lg: 80px;
+  --text-display-lg--line-height: 72px;
+  --text-display-lg--letter-spacing: -0.04em;
+  --text-display-lg--font-weight: 900;
+  --text-display-lg-mobile: 48px;
+  --text-display-lg-mobile--line-height: 44px;
+  --text-display-lg-mobile--letter-spacing: -0.02em;
+  --text-display-lg-mobile--font-weight: 900;
+  --text-headline-lg: 40px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-lg--letter-spacing: -0.01em;
+  --text-headline-lg--font-weight: 800;
+  --text-headline-sm: 24px;
+  --text-headline-sm--line-height: 28px;
+  --text-headline-sm--font-weight: 800;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--font-weight: 500;
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--font-weight: 400;
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 16px;
+  --text-label-caps--letter-spacing: 0.1em;
+  --text-label-caps--font-weight: 700;
+
+  /* 901px, not the stock 768px: the timetable switches from grid to tabs
+     exactly here. Overriding --breakpoint-md rather than adding a new name
+     keeps every existing `md:` utility pointing at the same place it did
+     under the v3 config's `screens: { md: '901px' }`. */
+  --breakpoint-md: 901px;
+
+  --spacing-unit: 4px;
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-margin-desktop: 64px;
+
+  /* Shape language is strictly sharp — v4 adds no rounding by default, so
+     this only needs to hold for anything that asks for `rounded` explicitly. */
+  --radius-DEFAULT: 0;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--color-background);
+    color: var(--color-on-background);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--color-primary); color: var(--color-on-primary); }
+  a { color: var(--color-primary); text-decoration: none; }
+  a:hover { color: var(--color-accent); }
+}
+
+@layer components {
+  /* Refined Brutalism primitives. v4 has no --border-width-* theme namespace,
+     so the old `border-thick` / `border-thin` utilities are gone; the literal
+     4px/2px live here and in `border-4` / `border-2` at the call sites. */
+  .border-brutal { border: 4px solid var(--color-primary); }
+  .border-brutal-thin { border: 2px solid var(--color-primary); }
+
+  .btn-brutal {
+    border: 4px solid var(--color-primary);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 120ms, color 120ms;
+  }
+  .btn-brutal--primary { background: var(--color-primary); color: var(--color-on-primary); }
+  .btn-brutal--primary:hover { background: var(--color-on-primary); color: var(--color-primary); }
+  .btn-brutal--secondary { background: var(--color-on-primary); color: var(--color-primary); }
+  .btn-brutal--secondary:hover { background: var(--color-primary); color: var(--color-on-primary); }
+
+  .chip {
+    border: 2px solid currentColor;
+    padding: 5px 10px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .marquee { overflow: hidden; white-space: nowrap; }
+  .marquee__content { display: inline-block; animation: marquee 26s linear infinite; }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* A 26s loop with no opt-out is an accessibility defect, not a nicety. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__content { animation: none; }
+  html { scroll-behavior: auto; }
+}

@@ -8,3 +8,20 @@ dist/
 
 # Editor / OS
 .DS_Store
+
+# Nuxt build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+logs
+*.log
+.fleet
+.idea
+.env
+.env.*
+!.env.example
+
+# Raw media pulled from Drive — only processed output is committed
+assets/media/raw/
