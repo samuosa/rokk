@@ -44,8 +44,8 @@ jobs:
           test -s .output/public/robots.txt
           test -s .output/public/.htaccess \
             || { echo "::error::.htaccess missing from the build output"; exit 1; }
-          grep -q "noindex" .output/public/index.html \
-            && { echo "::error::production build must not carry noindex"; exit 1; } || true
+          grep -qE '<meta name="robots" content="index' .output/public/index.html \
+            || { echo "::error::production build is not marked indexable"; exit 1; }
 
       # FTP-Deploy-Action SYNCHRONISES server-dir: files on the server that are
       # absent locally get deleted. A wrong server-dir therefore wipes unrelated

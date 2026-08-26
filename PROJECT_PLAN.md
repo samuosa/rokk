@@ -1,3 +1,9 @@
+> **Historical.** This plan describes the original Vue 3 + `vite-ssg` build
+> that lived in `project/vue/`. That app was migrated to Nuxt 4 and the
+> directory removed; paths, commands and the `VITE_*` environment variables
+> below no longer exist. Kept as a record of the Vue-phase decisions — see
+> [README.md](README.md) for the current architecture.
+
 # PUNK X TEKK (ROKK) — Project Plan
 
 Brand: **ROKK**. Event: **PUNK X TEKK — Collision of Subcultures**. Source design: the Claude

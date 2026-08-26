@@ -74,8 +74,8 @@ jobs:
             test -s ".output/public/$r/index.html" \
               || { echo "::error::missing prerendered route: $r"; exit 1; }
           done
-          grep -q "noindex" .output/public/index.html \
-            || { echo "::error::staging build is missing noindex"; exit 1; }
+          grep -qE '<meta name="robots" content="noindex' .output/public/index.html \
+            || { echo "::error::staging build is missing the noindex robots tag"; exit 1; }
 
       - uses: actions/upload-pages-artifact@v3
         with:
