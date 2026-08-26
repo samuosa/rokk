@@ -4,6 +4,11 @@ export const eventMeta: EventMeta = {
   title: 'PUNK X TEKK',
   claim: 'COLLISION OF SUBCULTURES',
   date: 'SAT / OCT 26',
+  // NOTE: 2026-10-26 is a Monday, so this contradicts the "SAT" in `date`
+  // above. Oct 26 last fell on a Saturday in 2024 and next does in 2030 —
+  // set the real year here and the JSON-LD follows automatically.
+  startIso: '2026-10-26T18:00:00+02:00',
+  endIso: '2026-10-27T08:00:00+02:00',
   doors: '18:00 — 08:00',
   venue: 'SECRET LOCATION',
   awarenessTicker: [

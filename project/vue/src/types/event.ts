@@ -61,7 +61,15 @@ export interface TicketTier {
 export interface EventMeta {
   title: string
   claim: string
+  /** Human-facing date string shown in the UI, e.g. "SAT / OCT 26". */
   date: string
+  /**
+   * Machine-readable start/end, used for schema.org structured data. Keep in
+   * sync with `date` above — search engines flag an event whose structured
+   * date contradicts the visible copy.
+   */
+  startIso: string
+  endIso: string
   doors: string
   venue: string
   awarenessTicker: string[]

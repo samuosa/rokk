@@ -17,3 +17,12 @@ export function canonicalUrl(routePath: string): string {
   const path = routePath === '/' ? '/' : routePath.replace(/^\//, '/')
   return `${SITE_URL}${base}${path}`.replace(/([^:])\/\/+/g, '$1/')
 }
+
+/**
+ * Absolute URL for a file in `public/` (favicons, the Open Graph image).
+ * Open Graph and Twitter consumers reject relative image paths, and the
+ * sub-path differs per deploy, so both parts have to come from the build.
+ */
+export function assetUrl(publicPath: string): string {
+  return canonicalUrl(publicPath)
+}
