@@ -77,13 +77,26 @@ control canonical URLs, Open Graph tags, the sitemap and the app's own routing b
 
 ### GitHub Pages (test)
 `.github/workflows/deploy.yml` (repo root) builds this app on every push to `main` and deploys
-`dist/` to GitHub Pages via `actions/deploy-pages`. It derives `VITE_BASE_PATH` and
-`VITE_SITE_URL` from the repository name automatically (`https://<owner>.github.io/<repo>/`).
+`dist/` to GitHub Pages via `actions/deploy-pages`.
 
 No manual setup is needed: `actions/configure-pages` runs with `enablement: true`, so the
 workflow points the repo's Pages site at GitHub Actions itself using its `pages: write`
 permission (equivalent to setting **Settings → Pages → Source** to **GitHub Actions** by hand).
-A repo fork or a fresh clone deploys on its first push to `main`.
+A fork or a fresh clone deploys on its first push to `main`.
+
+That step runs *before* the build, and the build takes `VITE_BASE_PATH`/`VITE_SITE_URL` from
+its outputs rather than from the repo name — so the same workflow is correct whether Pages
+serves a project site or a custom domain:
+
+| Pages configuration                | `base_path` | `origin`                   | site served at                |
+|------------------------------------|-------------|----------------------------|-------------------------------|
+| project site (no custom domain)    | `/rokk`     | `https://samuosa.github.io`| `https://samuosa.github.io/rokk/` |
+| custom domain (Settings → Pages)   | `""`        | `https://<your-domain>`    | `https://<your-domain>/`      |
+
+**Setting or removing a custom domain changes the correct base path**, so re-run this workflow
+after either — the previously deployed build still has the old prefix baked into every asset
+URL. `origin` also reflects the scheme Pages reports, so enable **Enforce HTTPS** (available
+once the domain's certificate is issued) before relying on canonical URLs.
 
 ### Ionos (production)
 Build locally or in your own pipeline with the real domain and root base path, then upload
