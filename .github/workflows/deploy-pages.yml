@@ -1,0 +1,85 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # --legacy-peer-deps is required, not cosmetic: npm 10.9's dependency
+      # resolver crashes ("Cannot read properties of null (reading 'edgesOut')")
+      # walking Nuxt 4's devtools peer set. The lockfile is generated the same
+      # way, so this is the flag that makes `npm ci` reproducible here.
+      - run: npm ci --legacy-peer-deps
+
+      # Runs BEFORE the build so the build can read where Pages actually serves
+      # this site from, instead of assuming "/<repo>/" from the repository name.
+      # A custom domain serves from the domain root, and that assumption has
+      # already broken this site once. enablement:true also creates the Pages
+      # site on a fresh repo, so nobody has to flip Settings -> Pages by hand.
+      - uses: actions/configure-pages@v5
+        id: pages
+        with:
+          enablement: true
+
+      # base_path is "/rokk" for a project site and "" at a domain root, and
+      # never carries a trailing slash — so appending one yields exactly what
+      # Nuxt wants in either case. origin is the bare origin; the site URL must
+      # never also contain the sub-path or it is duplicated into ".../rokk/rokk/".
+      #
+      # NUXT_SITE_INDEXABLE=false keeps this staging build out of search
+      # results so it cannot compete with the production domain as duplicate
+      # content.
+      - name: Generate (prerender)
+        run: npx nuxt generate
+        env:
+          NUXT_APP_BASE_URL: ${{ steps.pages.outputs.base_path }}/
+          NUXT_SITE_URL: ${{ steps.pages.outputs.origin }}
+          NUXT_SITE_INDEXABLE: 'false'
+
+      # Nuxt writes assets to _nuxt/, and Jekyll skips any directory whose
+      # name starts with an underscore.
+      - run: touch .output/public/.nojekyll
+
+      # A build that produced an empty #__nuxt shell would still upload and
+      # still look green, so fail here instead of shipping an unindexable site.
+      - name: Verify prerendered HTML contains real content
+        run: |
+          test -s .output/public/index.html
+          grep -q "COLLISION OF SUBCULTURES" .output/public/index.html \
+            || { echo "::error::index.html has no prerendered content — is the build in SPA mode?"; exit 1; }
+          for r in lights template lineup/giftgrube; do
+            test -s ".output/public/$r/index.html" \
+              || { echo "::error::missing prerendered route: $r"; exit 1; }
+          done
+          grep -q "noindex" .output/public/index.html \
+            || { echo "::error::staging build is missing noindex"; exit 1; }
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .output/public
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,4 +1,7 @@
-import type { Band, EventMeta, ResolvedSlot, Stage, TicketTier, TimeSlot } from '~/types/event'
+// Relative, not the "~/" alias: nuxt.config.ts reads this module (via
+// data/routes.ts) to build the prerender route list, outside the app's
+// path mapping.
+import type { Band, EventMeta, ResolvedSlot, Stage, TicketTier, TimeSlot } from '../types/event'
 
 export const eventMeta: EventMeta = {
   title: 'PUNK X TEKK',

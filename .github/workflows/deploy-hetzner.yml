@@ -1,0 +1,74 @@
+name: Deploy to Hetzner
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'List changes without writing to the server'
+        type: boolean
+        default: true
+
+concurrency:
+  group: hetzner-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # See deploy-pages.yml — npm 10.9's resolver crashes without this.
+      - run: npm ci --legacy-peer-deps
+
+      - name: Generate (prerender)
+        run: npx nuxt generate
+        env:
+          NUXT_APP_BASE_URL: /
+          NUXT_SITE_URL: ${{ vars.SITE_URL }}
+          NUXT_SITE_INDEXABLE: 'true'
+
+      - name: Verify prerendered HTML contains real content
+        run: |
+          test -s .output/public/index.html
+          grep -q "COLLISION OF SUBCULTURES" .output/public/index.html \
+            || { echo "::error::index.html has no prerendered content — is the build in SPA mode?"; exit 1; }
+          test -s .output/public/sitemap.xml
+          test -s .output/public/robots.txt
+          test -s .output/public/.htaccess \
+            || { echo "::error::.htaccess missing from the build output"; exit 1; }
+          grep -q "noindex" .output/public/index.html \
+            && { echo "::error::production build must not carry noindex"; exit 1; } || true
+
+      # FTP-Deploy-Action SYNCHRONISES server-dir: files on the server that are
+      # absent locally get deleted. A wrong server-dir therefore wipes unrelated
+      # content. The first run must be a dry run — read the log, confirm the
+      # path and the delete list, then re-run with dry_run unchecked.
+      #
+      # `dry-run` defaults to true on a push so an unattended merge cannot write
+      # to the live domain before a human has read one dry-run log. Flip the
+      # default to false once the target directory is confirmed.
+      - name: Deploy via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HETZNER_FTP_HOSTNAME }}
+          username: ${{ secrets.HETZNER_FTP_LOGIN }}
+          password: ${{ secrets.HETZNER_FTP_PASSWORD }}
+          protocol: sftp
+          port: ${{ secrets.HETZNER_SFTP_PORT }}
+          local-dir: ./.output/public/
+          server-dir: ${{ vars.HETZNER_SERVER_DIR }}
+          state-name: .ftp-deploy-state.json
+          dry-run: ${{ github.event_name != 'workflow_dispatch' || inputs.dry_run }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**

@@ -43,7 +43,7 @@ if (!act.value!.band.tba) {
   useSchemaOrg([
     // No dedicated define* helper ships for MusicGroup, so this is a raw node.
     { '@type': 'MusicGroup', name: act.value!.band.name, genre: act.value!.band.genre },
-    defineEvent(musicEvent()),
+    musicEventNode(),
   ])
 }
 </script>

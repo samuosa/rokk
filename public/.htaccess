@@ -1,0 +1,24 @@
+# Apache config for the Hetzner deploy. Ignored by GitHub Pages, which is
+# nginx-based — the Pages 404 is served from 404.html automatically.
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Nuxt fingerprints these filenames, so a changed file is a new URL.
+  <FilesMatch "\.(js|css|woff2|avif|webp|png|jpe?g|svg|ico)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, immutable"
+  </FilesMatch>
+
+  # HTML filenames never change, so caching it hides the next deployment.
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>

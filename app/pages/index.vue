@@ -25,7 +25,7 @@ useSeoMeta({
 
 // Structured data via nuxt-schema-org. Hand-written JSON-LD alongside the
 // module would put two MusicEvent nodes in the graph.
-useSchemaOrg([defineEvent(musicEvent())])
+useSchemaOrg([musicEventNode()])
 </script>
 
 <template>
