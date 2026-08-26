@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PUNK X TEKK</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&amp;family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#303030",
+                      "secondary-container": "#dfe0e0",
+                      "outline-variant": "#cfc4c5",
+                      "primary-fixed": "#e2e2e2",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#f9f9f9",
+                      "on-tertiary-fixed": "#410000",
+                      "surface-container-low": "#f3f3f3",
+                      "tertiary": "#000000",
+                      "secondary-fixed": "#e2e2e2",
+                      "secondary": "#5d5f5f",
+                      "secondary-fixed-dim": "#c6c6c7",
+                      "surface-container-high": "#e8e8e8",
+                      "on-primary": "#ffffff",
+                      "on-surface": "#1b1b1b",
+                      "primary": "#000000",
+                      "on-surface-variant": "#4c4546",
+                      "primary-fixed-dim": "#c6c6c6",
+                      "surface-container": "#eeeeee",
+                      "tertiary-fixed": "#ffdad4",
+                      "background": "#f9f9f9",
+                      "inverse-on-surface": "#f1f1f1",
+                      "on-tertiary-fixed-variant": "#930100",
+                      "on-background": "#1b1b1b",
+                      "surface-dim": "#dadada",
+                      "tertiary-fixed-dim": "#ffb4a8",
+                      "surface-variant": "#e2e2e2",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-container": "#410000",
+                      "surface-tint": "#5e5e5e",
+                      "on-primary-container": "#848484",
+                      "on-tertiary-container": "#ff291a",
+                      "on-error-container": "#93000a",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#474747",
+                      "surface-container-highest": "#e2e2e2",
+                      "error": "#ba1a1a",
+                      "on-primary-fixed": "#1b1b1b",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "surface": "#f9f9f9",
+                      "on-secondary": "#ffffff",
+                      "primary-container": "#1b1b1b",
+                      "on-secondary-container": "#616363",
+                      "outline": "#7e7576",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed-variant": "#454747",
+                      "inverse-primary": "#c6c6c6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "border-thin": "2px",
+                      "border-thick": "4px",
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "gutter": "24px",
+                      "margin-desktop": "64px"
+              },
+              "fontFamily": {
+                      "headline-sm": [
+                              "Anybody"
+                      ],
+                      "display-lg": [
+                              "Anybody"
+                      ],
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg": [
+                              "Anybody"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "display-lg-mobile": [
+                              "Anybody"
+                      ]
+              },
+              "fontSize": {
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "display-lg": [
+                              "80px",
+                              {
+                                      "lineHeight": "72px",
+                                      "letterSpacing": "-0.04em",
+                                      "fontWeight": "900"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "40px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.1em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "48px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "900"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        /* Refined Brutalism Utilities */
+        .border-brutal {
+            border: 4px solid var(--primary, #000);
+        }
+        .border-brutal-thin {
+            border: 2px solid var(--primary, #000);
+        }
+        .btn-brutal {
+            border: 4px solid var(--primary, #000);
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+        }
+        .btn-brutal-primary {
+            background-color: var(--primary, #000);
+            color: var(--on-primary, #fff);
+        }
+        .btn-brutal-primary:hover {
+            background-color: var(--on-primary, #fff);
+            color: var(--primary, #000);
+        }
+        .btn-brutal-secondary {
+            background-color: var(--on-primary, #fff);
+            color: var(--primary, #000);
+        }
+        .btn-brutal-secondary:hover {
+            background-color: var(--primary, #000);
+            color: var(--on-primary, #fff);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-background border-b-thick border-primary z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary text-3xl md:hidden cursor-pointer">menu</span>
+<span class="font-headline-lg text-headline-lg font-black text-primary tracking-tighter uppercase">PUNK X TEKK</span>
+</div>
+<nav class="hidden md:flex gap-8 font-headline-sm text-headline-sm uppercase">
+<a class="text-primary hover:bg-primary hover:text-on-primary transition-colors duration-150 px-2 py-1" href="#">MANIFESTO</a>
+<a class="text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-150 px-2 py-1" href="#">LINEUP</a>
+<a class="text-secondary hover:bg-primary hover:text-on-primary transition-colors duration-150 px-2 py-1" href="#">AWARENESS</a>
+</nav>
+<button class="hidden md:block btn-brutal btn-brutal-primary px-6 py-2 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-colors duration-150 active:invert">
+            TICKETS
+        </button>
+</header>
+<main class="max-w-[1200px] mx-auto w-full">
+<!-- Hero Section 1 (Brand) -->
+<section class="min-h-[80vh] flex flex-col md:flex-row items-center justify-center px-margin-mobile md:px-margin-desktop py-16 gap-12 border-b-thick border-primary">
+<div class="flex-1 flex justify-center">
+<img alt="ROKK Logo" class="w-full max-w-[500px] object-contain border-brutal bg-white p-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEzTTRLbW0kgvtpoJ71aWv8vyxUbRqvCcou7MiMIk6int89NRNMuAY2epTaTg57Wn73VqUFwG3iuU82rx4wGXnFbf1e8CnYZUIZ1s9__DvDIQK5QCtdJtWMLEwKPyEzDlG3pfEjofqKgWGNqEi2V7qKtmBGt78iHl7-M4nILBl0aBP7eAGf0m80vmlf-FEtSZZ24ivk_DZQmgmbzVpyrWKnqTryrQNY0GmB36PhmQzEnvY0fCkZVjFMin_DI7ZPxFi"/>
+</div>
+<div class="flex-1 space-y-6">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg uppercase text-primary">
+                    RECLAIMING THE UNDERGROUND.<br/>
+                    BOLD SOUNDS,<br/>
+                    RAW ENERGY,<br/>
+                    NO COMPROMISE.
+                </h1>
+</div>
+</section>
+<!-- Hero Section 2 (Event) -->
+<section class="relative min-h-[90vh] flex items-center justify-center border-b-thick border-primary overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida/AEtjO1V9Cx8CBVENyNmMGF97fJHzGhtgUs_BgCrtUZHIK1dVlZ3I2w14atJAeTNO5X71NNvaRLkkwVsNwMxD2mPNosCn3C8YZ72XJ3VcSxA8lT1QeQwgzRcupLslP0zW61d02naOVXkyG1y6XmDbqKl8Md7G3bJMbEl0Hsyuft0oDipZNLxzsVEndvl-kwAEISGakLO_BTtltH3yCp58EjdYg_6b96mtJanOQsw9G1ZSdguLWJS4ciB4avWhqw'); background-size: cover; background-position: center;">
+<div class="absolute inset-0 bg-white/10 backdrop-blur-[2px]"></div>
+<div class="relative z-10 flex flex-col items-center justify-center space-y-8 p-margin-mobile md:p-margin-desktop bg-white border-brutal max-w-4xl mx-margin-mobile md:mx-auto text-center transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+<img alt="Punk X Tekk Logo" class="w-64 h-64 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WWfdXml60fDfz_dQQRBj5JmpYGBNdtHaDLDZMJznSNS_uBSZJngCHcwUld-mr9XzEAQ8WnHSrv6BZ0deHU_dr2tf-2VrOwWw6Z6-wqZ_ovQZdgUZI_1-sNtueL9Z3S9n0Wy8SxvsTLTvXHQkNzZyuqvsJXb9dA_nZvZC3zo1YuiI5JELw0Kl9xeDpRrxzB_XiFoVRWYtZeHvMrkfgU21U2Gasd0WiWyVvLfozuIYSML5RLIpOE1BMt"/>
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary uppercase leading-none">
+                    COLLISION OF SUBCULTURES
+                </h2>
+<div class="flex gap-4">
+<span class="border-brutal-thin px-4 py-2 font-label-caps text-label-caps bg-black text-white uppercase">PUNK</span>
+<span class="border-brutal-thin px-4 py-2 font-label-caps text-label-caps bg-white text-black uppercase">TEKK</span>
+</div>
+</div>
+</section>
+<!-- Achsamkeit Section (Awareness Bar) -->
+<div class="w-full border-b-thick border-primary bg-black text-white py-4 overflow-hidden border-brutal font-headline-sm text-headline-sm uppercase">
+<div class="marquee-container">
+<div class="marquee-content">
+                    NO RACISM • NO SEXISM • NO HOMOPHOBIA • OPEN SPACE • MERGING SUBCULTURES • RESPECT THE VIBE • NO RACISM • NO SEXISM • NO HOMOPHOBIA • OPEN SPACE • MERGING SUBCULTURES • RESPECT THE VIBE •
+                </div>
+</div>
+</div>
+<!-- Lineup Section -->
+<section class="py-16 px-margin-mobile md:px-margin-desktop border-b-thick border-primary">
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg uppercase text-primary mb-12 text-center md:text-left">LINEUP / TIMELINE</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Punk Concert Card -->
+<div class="border-brutal bg-white p-6 hover:bg-black hover:text-white transition-colors duration-300 group flex flex-col">
+<h3 class="font-headline-lg text-headline-lg uppercase mb-4 border-b-thick border-current pb-2">OUTDOOR PUNK CONCERT</h3>
+<p class="font-body-lg text-body-lg mb-6 flex-grow">Raw, unfiltered punk energy in an open-air setting. Mosh pits, distorted guitars, and unapologetic attitude.</p>
+<div class="font-label-caps text-label-caps uppercase space-y-2 border-t-thick border-current pt-4">
+<div class="flex justify-between"><span>18:00</span><span>DOORS</span></div>
+<div class="flex justify-between"><span>19:00</span><span>LOCAL SUPPORT</span></div>
+<div class="flex justify-between"><span>21:00</span><span>HEADLINER</span></div>
+</div>
+</div>
+<!-- TEKK Rave Card -->
+<div class="border-brutal bg-white p-6 hover:bg-black hover:text-white transition-colors duration-300 group flex flex-col">
+<h3 class="font-headline-lg text-headline-lg uppercase mb-4 border-b-thick border-current pb-2">TEKK RAVE</h3>
+<p class="font-body-lg text-body-lg mb-6 flex-grow">Relentless BPM, industrial sounds, and heavy basslines moving into the night. Pure underground techno experience.</p>
+<div class="font-label-caps text-label-caps uppercase space-y-2 border-t-thick border-current pt-4">
+<div class="flex justify-between"><span>23:00</span><span>RAVE START</span></div>
+<div class="flex justify-between"><span>02:00</span><span>PEAK TIME</span></div>
+<div class="flex justify-between"><span>06:00</span><span>CLOSING</span></div>
+</div>
+</div>
+</div>
+<!-- Coming Soon Graphic -->
+<div class="mt-12 border-brutal overflow-hidden">
+<img alt="More acts coming soon" class="w-full h-auto object-cover max-h-[400px] hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/AEtjO1Xn2F_-IjVfqANmtxKDI-6zCZiPBgb3ssC3GGabh3SA2d282NUDHWmCbEGovd486nhyp1qsdqhsfbKId-utePdgTAqLSD8WIsFLjEwykDahQW8bNaIGkq2klNelWk9S4QKEpwvq59uEROcJQuTwpwylfQzqfg0fLJUWZkCozcD0qQzoG-Ked7YgZteIJS18PumAiS2OU7YXqZp8V9t0zp1wmDe9lqdz-zZAzalgHJYSmOfcUety6-pZ"/>
+</div>
+</section>
+<!-- Collaborators Section -->
+<section class="py-16 px-margin-mobile md:px-margin-desktop border-b-thick border-primary bg-surface-container">
+<h2 class="font-headline-lg text-headline-lg uppercase text-center mb-12 text-primary">COLLABORATORS</h2>
+<div class="flex flex-wrap justify-center gap-8">
+<div class="border-brutal bg-black text-white px-8 py-6 font-headline-sm text-headline-sm uppercase hover:bg-white hover:text-black transition-colors duration-150">
+                    SDWA5 SOUNDSYSTEM
+                </div>
+<div class="border-brutal bg-white text-black px-8 py-6 font-headline-sm text-headline-sm uppercase hover:bg-black hover:text-white transition-colors duration-150">
+                    GIFTGRUBE
+                </div>
+<div class="border-brutal bg-black text-white px-8 py-6 font-headline-sm text-headline-sm uppercase hover:bg-white hover:text-black transition-colors duration-150">
+                    BPM BERLIN
+                </div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-primary text-on-primary border-t-thick border-primary flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop py-gutter gap-4 font-label-caps text-label-caps">
+<div class="font-headline-sm text-headline-sm text-on-primary">
+            PUNK X TEKK
+        </div>
+<nav class="flex gap-6">
+<a class="no-underline hover:text-tertiary-fixed transition-all active:scale-95 duration-100" href="#">MANIFESTO</a>
+<a class="no-underline hover:text-tertiary-fixed transition-all active:scale-95 duration-100" href="#">LINEUP</a>
+<a class="no-underline hover:text-tertiary-fixed transition-all active:scale-95 duration-100" href="#">AWARENESS</a>
+<a class="no-underline hover:text-tertiary-fixed transition-all active:scale-95 duration-100" href="#">TICKETS</a>
+</nav>
+<div class="text-center md:text-right">
+            ©2024 PUNK X TEKK. NO RACISM. NO SEXISM. NO HOMOPHOBIA.
+        </div>
+</footer>
+</body></html>
