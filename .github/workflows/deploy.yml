@@ -38,25 +38,32 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      # GitHub Pages project sites are served from https://<owner>.github.io/<repo>/.
-      # VITE_SITE_URL is the bare origin (no repo path — canonicalUrl() appends
-      # VITE_BASE_PATH on top of it, so putting the repo name in both would
-      # duplicate it into ".../rokk/rokk/..."). Both are derived from the repo
-      # itself, no hardcoding needed. The Ionos production build instead uses
-      # VITE_BASE_PATH=/ with the real domain (see project/vue/README.md).
+      # Runs BEFORE the build so the build can read where Pages will actually
+      # serve this site from. enablement: true additionally lets the workflow
+      # create the Pages site and point it at GitHub Actions (via the
+      # pages: write permission above), so a fresh repo deploys without anyone
+      # flipping Settings -> Pages -> Source by hand; no-op once configured.
+      - uses: actions/configure-pages@v5
+        id: pages
+        with:
+          enablement: true
+
+      # Both values come from the live Pages configuration rather than from the
+      # repo name, so this stays correct for a project site AND for a custom
+      # domain, which serves from the domain root:
+      #   project site    base_path "/rokk"   origin "https://samuosa.github.io"
+      #   custom domain   base_path ""        origin "https://rokk.music"
+      # base_path never carries a trailing slash (and is empty at a domain
+      # root), so the "/" below turns it into the "/rokk/" or "/" that Vite's
+      # `base` wants. origin is the bare origin canonicalUrl() expects — it
+      # appends VITE_BASE_PATH itself, so putting the sub-path in both would
+      # duplicate it into ".../rokk/rokk/...". The Ionos production build sets
+      # these by hand instead (see project/vue/README.md).
       - name: Build (SSG)
         run: npm run build
         env:
-          VITE_BASE_PATH: /${{ github.event.repository.name }}/
-          VITE_SITE_URL: https://${{ github.repository_owner }}.github.io
-
-      # enablement: true lets this workflow create/point the repo's Pages site at
-      # GitHub Actions itself (via the pages: write permission above), so a fresh
-      # repo deploys without anyone first flipping Settings -> Pages -> Source.
-      # It is a no-op once Pages is already configured that way.
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
+          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+          VITE_SITE_URL: ${{ steps.pages.outputs.origin }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
