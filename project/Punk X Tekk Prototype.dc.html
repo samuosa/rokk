@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUNK X TEKK — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Hanken+Grotesk:ital,wght@0,100..900&family=JetBrains+Mono:wght@400..800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #dadada; }
+  body { font-family: 'Hanken Grotesk', sans-serif; color: #1b1b1b; -webkit-font-smoothing: antialiased; }
+  ::selection { background: #000; color: #fff; }
+  a { color: #000; text-decoration: none; }
+  a:hover { color: #ff291a; }
+  @keyframes pxt-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  [data-frame] { container-type: inline-size; }
+  @container (max-width: 720px) { [data-desk] { display: none !important; } [data-mob] { display: block !important; } [data-mob-flex] { display: flex !important; } }
+  @container (min-width: 721px) { [data-mob], [data-mob-flex] { display: none !important; } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: #dadada;">
+
+<div style="position: sticky; top: 0; z-index: 80; background: #000; color: #fff; border-bottom: 4px solid #000; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px;">
+  <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: #848484;">PROTOTYPE / ROKK — PUNK X TEKK</span>
+  <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+    <sc-for list="{{ pageNav }}" as="p" hint-placeholder-count="4">
+      <button type="button" onClick="{{ p.onSelect }}" aria-pressed="{{ p.active }}" style="border: 2px solid #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 14px; cursor: pointer; background: {{ p.bg }}; color: {{ p.fg }};">{{ p.label }}</button>
+    </sc-for>
+  </div>
+  <div style="display: flex; gap: 8px;">
+    <sc-for list="{{ modeNav }}" as="m" hint-placeholder-count="2">
+      <button type="button" onClick="{{ m.onSelect }}" aria-pressed="{{ m.active }}" style="border: 2px solid #848484; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 14px; cursor: pointer; background: {{ m.bg }}; color: {{ m.fg }};">{{ m.label }}</button>
+    </sc-for>
+  </div>
+</div>
+
+<div style="display: flex; justify-content: center; padding: 28px 16px 60px;">
+<div data-frame style="width: {{ frameWidth }}; max-width: 100%; border: 4px solid #000; background: #f9f9f9; overflow: hidden;">
+
+  <div data-mob style="display: none; background: #000; color: #fff; padding: 8px 16px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10px; letter-spacing: 0.14em;">
+    <div style="display: flex; justify-content: space-between;"><span>23:41</span><span>ROKK LTE • 12%</span></div>
+  </div>
+
+  <header style="position: sticky; top: 0; z-index: 40; background: #f9f9f9; border-bottom: 4px solid #000; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px clamp(16px, 4cqi, 48px);">
+    <button type="button" onClick="{{ goHome }}" style="border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(20px, 3.2cqi, 32px); line-height: 1; letter-spacing: -0.03em; text-transform: uppercase; color: #000;">PUNK X TEKK</button>
+    <nav data-desk style="display: flex; gap: 4px;">
+      <sc-for list="{{ siteNav }}" as="n" hint-placeholder-count="4">
+        <button type="button" onClick="{{ n.onSelect }}" aria-current="{{ n.active }}" style="border: 0; padding: 7px 10px; cursor: pointer; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase; background: {{ n.bg }}; color: {{ n.fg }};">{{ n.label }}</button>
+      </sc-for>
+    </nav>
+    <button data-desk type="button" onClick="{{ goTickets }}" style="border: 4px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 18px; cursor: pointer;" style-hover="background: #fff; color: #000;">TICKETS</button>
+    <button data-mob type="button" onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="display: none; width: 48px; height: 48px; border: 4px solid #000; background: #fff; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; cursor: pointer;">{{ menuIcon }}</button>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <nav style="border-bottom: 4px solid #000; background: #000; display: flex; flex-direction: column;">
+      <sc-for list="{{ siteNav }}" as="n" hint-placeholder-count="4">
+        <button type="button" onClick="{{ n.onSelect }}" style="min-height: 56px; border: 0; border-bottom: 2px solid #303030; background: transparent; color: #fff; text-align: left; padding: 0 20px; cursor: pointer; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase;">{{ n.label }}</button>
+      </sc-for>
+    </nav>
+  </sc-if>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <section style="display: flex; flex-wrap: wrap; align-items: center; gap: clamp(24px, 4cqi, 56px); padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px); border-bottom: 4px solid #000;">
+      <div style="flex: 1 1 260px; display: flex; justify-content: center;">
+        <img src="assets/rokk-logo.jpeg" alt="ROKK" style="width: 100%; max-width: 420px; aspect-ratio: 1; object-fit: cover; border: 4px solid #000; background: #fff; display: block;">
+      </div>
+      <div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 22px;">
+        <h1 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(38px, 8cqi, 80px); line-height: 0.88; letter-spacing: -0.035em; text-transform: uppercase; color: #000; text-wrap: balance;">RECLAIMING THE UNDERGROUND. BOLD SOUNDS, RAW ENERGY, NO COMPROMISE.</h1>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;">
+          <span style="border: 2px solid #000; padding: 8px 14px; background: #000; color: #fff;">SAT / OCT 26</span>
+          <span style="border: 2px solid #000; padding: 8px 14px;">SECRET LOCATION</span>
+          <span style="border: 2px solid #000; padding: 8px 14px;">18:00 — 08:00</span>
+        </div>
+      </div>
+    </section>
+
+    <section style="position: relative; border-bottom: 4px solid #000; display: flex; align-items: center; justify-content: center; padding: clamp(32px, 6cqi, 96px) clamp(16px, 4cqi, 48px); background: #111; overflow: hidden;">
+      <img src="assets/soundsystem.jpeg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; filter: grayscale(1) contrast(1.4);">
+      <div style="position: relative; z-index: 2; background: #fff; border: 4px solid #000; padding: clamp(20px, 3.4cqi, 48px); max-width: 760px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 22px; transform: rotate(-2deg); transition: transform 300ms;" style-hover="transform: rotate(0deg);">
+        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #5d5f5f;">ROKK PRESENTS</span>
+        <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(34px, 7.4cqi, 80px); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase; color: #000;">COLLISION OF SUBCULTURES</h2>
+        <div style="display: flex; gap: 10px;">
+          <span style="border: 2px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; padding: 8px 16px;">PUNK</span>
+          <span style="border: 2px solid #000; background: #fff; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; padding: 8px 16px;">TEKK</span>
+        </div>
+        <button type="button" onClick="{{ goTickets }}" style="border: 4px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px 34px; cursor: pointer;" style-hover="background: #fff; color: #000;">GET TICKETS</button>
+      </div>
+    </section>
+
+    <div style="border-bottom: 4px solid #000; background: #000; color: #fff; padding: 13px 0; overflow: hidden; white-space: nowrap;">
+      <div style="display: inline-block; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(16px, 2.4cqi, 24px); text-transform: uppercase; animation: pxt-marquee 26s linear infinite;">NO RACISM • NO SEXISM • NO HOMOPHOBIA • OPEN SPACE • MERGING SUBCULTURES • RESPECT THE VIBE • NO RACISM • NO SEXISM • NO HOMOPHOBIA • OPEN SPACE • MERGING SUBCULTURES • RESPECT THE VIBE • </div>
+    </div>
+
+    <section style="padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px); border-bottom: 4px solid #000;">
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px;">
+        <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(34px, 6.4cqi, 68px); line-height: 0.88; letter-spacing: -0.035em; text-transform: uppercase;">TWO STAGES, ONE NIGHT</h2>
+        <button type="button" onClick="{{ goLineup }}" style="border: 4px solid #000; background: #fff; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 13px 20px; cursor: pointer;" style-hover="background: #000; color: #fff;">FULL LINE-UP →</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+        <sc-for list="{{ stageTeasers }}" as="st" hint-placeholder-count="2">
+          <article style="border: 4px solid #000; background: #fff; padding: 22px; display: flex; flex-direction: column; gap: 14px; transition: background 200ms, color 200ms;" style-hover="background: #000; color: #fff;">
+            <h3 style="margin: 0; padding-bottom: 12px; border-bottom: 4px solid currentColor; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(24px, 3.2cqi, 40px); line-height: 0.95; text-transform: uppercase;">{{ st.label }}</h3>
+            <p style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 17px; line-height: 26px;">{{ st.description }}</p>
+            <div style="display: flex; flex-direction: column; gap: 8px; border-top: 4px solid currentColor; padding-top: 14px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;">
+              <sc-for list="{{ st.rows }}" as="r" hint-placeholder-count="3">
+                <div style="display: flex; justify-content: space-between; gap: 12px;"><span>{{ r.time }}</span><span>{{ r.label }}</span></div>
+              </sc-for>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px); border-bottom: 4px solid #000; background: #eeeeee;">
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px;">
+        <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(34px, 6.4cqi, 68px); line-height: 0.88; letter-spacing: -0.035em; text-transform: uppercase;">MORE THAN MUSIC</h2>
+        <button type="button" onClick="{{ goSpecials }}" style="border: 4px solid #000; background: #fff; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 13px 20px; cursor: pointer;" style-hover="background: #000; color: #fff;">ALL SPECIALS →</button>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+        <sc-for list="{{ specialTeasers }}" as="sp" hint-placeholder-count="3">
+          <button type="button" onClick="{{ sp.onOpen }}" style="border: 4px solid #000; background: #fff; color: #000; padding: 20px; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 10px; min-height: 170px;" style-hover="background: #000; color: #fff;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">{{ sp.time }}</span>
+            <span style="flex: 1; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(20px, 2.6cqi, 28px); line-height: 1; text-transform: uppercase;">{{ sp.title }}</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; border: 2px solid currentColor; padding: 5px 10px; align-self: flex-start;">{{ sp.tag }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="padding: clamp(32px, 6cqi, 88px) clamp(16px, 4cqi, 48px); display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center;">
+      <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(34px, 7.4cqi, 80px); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase;">DON'T WAIT FOR THE DOOR LIST.</h2>
+      <p style="margin: 0; max-width: 600px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 28px;">Capacity is hard-capped by the soundsystem, not by hype. Presale closes when the last riser is sold.</p>
+      <button type="button" onClick="{{ goTickets }}" style="border: 4px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; padding: 20px 44px; cursor: pointer;" style-hover="background: #fff; color: #000;">BUY NOW — FROM €22</button>
+    </section>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isLineup }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <section style="padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px); border-bottom: 4px solid #000;">
+      <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 26px;">
+        <h1 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(38px, 8cqi, 80px); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase;">LINE-UP</h1>
+        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #5d5f5f;">{{ visibleCountLabel }}</span>
+      </div>
+
+      <div role="group" aria-label="Stage filter" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+        <sc-for list="{{ stageFilters }}" as="f" hint-placeholder-count="3">
+          <button type="button" onClick="{{ f.onSelect }}" aria-pressed="{{ f.active }}" style="border: 4px solid #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 13px 20px; cursor: pointer; background: {{ f.bg }}; color: {{ f.fg }};">{{ f.label }}</button>
+        </sc-for>
+      </div>
+      <div role="group" aria-label="Genre filter" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px;">
+        <sc-for list="{{ genreFilters }}" as="g" hint-placeholder-count="6">
+          <button type="button" onClick="{{ g.onSelect }}" aria-pressed="{{ g.active }}" style="border: 2px solid #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 8px 12px; cursor: pointer; background: {{ g.bg }}; color: {{ g.fg }};">{{ g.label }}</button>
+        </sc-for>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px;">
+        <sc-for list="{{ visibleActs }}" as="act" hint-placeholder-count="6">
+          <article style="border: 4px solid #000; background: #fff; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-height: 250px; transition: background 200ms, color 200ms;" style-hover="background: #000; color: #fff;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+              <span>{{ act.stageLabel }}</span><span>{{ act.window }}</span>
+            </div>
+            <h3 style="margin: 0; padding-bottom: 12px; border-bottom: 4px solid currentColor; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(24px, 3.2cqi, 40px); line-height: 0.95; text-transform: uppercase; text-wrap: balance;">{{ act.name }}</h3>
+            <p style="margin: 0; flex: 1; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 17px; line-height: 26px;">{{ act.blurb }}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+              <span style="border: 2px solid currentColor; padding: 5px 10px;">{{ act.genre }}</span>
+              <span style="border: 2px solid currentColor; padding: 5px 10px;">{{ act.role }}</span>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+        <div style="border: 4px solid #000; padding: 36px; text-align: center; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase;">NOTHING MATCHES. LOOSEN THE FILTER.</div>
+      </sc-if>
+    </section>
+
+    <section style="padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px); border-bottom: 4px solid #000; background: #eeeeee;">
+      <h2 style="margin: 0 0 28px; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(34px, 6.4cqi, 68px); line-height: 0.88; letter-spacing: -0.035em; text-transform: uppercase;">TIMETABLE</h2>
+
+      <div data-desk style="border: 4px solid #000; background: #fff;">
+        <div style="display: grid; grid-template-columns: 104px 1fr 1fr; border-bottom: 4px solid #000;">
+          <div style="padding: 14px; border-right: 2px solid #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5d5f5f;">TIME</div>
+          <div style="padding: 14px; border-right: 2px solid #000; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 21px; text-transform: uppercase;">OUTDOOR PUNK</div>
+          <div style="padding: 14px; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 21px; text-transform: uppercase;">TEKK RAVE</div>
+        </div>
+        <sc-for list="{{ gridRows }}" as="row" hint-placeholder-count="8">
+          <div style="display: grid; grid-template-columns: 104px 1fr 1fr; border-top: 2px solid #cfc4c5;">
+            <div style="padding: 16px 14px; border-right: 2px solid #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; letter-spacing: 0.08em;">{{ row.time }}</div>
+            <div style="padding: 16px 14px; border-right: 2px solid #000; background: {{ row.punkBg }}; color: {{ row.punkFg }};">
+              <div style="font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 19px; line-height: 1.05; text-transform: uppercase;">{{ row.punkName }}</div>
+              <div style="margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7;">{{ row.punkMeta }}</div>
+            </div>
+            <div style="padding: 16px 14px; background: {{ row.tekkBg }}; color: {{ row.tekkFg }};">
+              <div style="font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 19px; line-height: 1.05; text-transform: uppercase;">{{ row.tekkName }}</div>
+              <div style="margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7;">{{ row.tekkMeta }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div data-mob style="display: none;">
+        <div role="tablist" style="display: flex; border: 4px solid #000; margin-bottom: 18px;">
+          <sc-for list="{{ stageTabs }}" as="t" hint-placeholder-count="2">
+            <button type="button" role="tab" aria-selected="{{ t.active }}" onClick="{{ t.onSelect }}" style="flex: 1; min-height: 56px; border: 0; border-right: 2px solid #000; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 16px; text-transform: uppercase; cursor: pointer; background: {{ t.bg }}; color: {{ t.fg }};">{{ t.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <sc-for list="{{ tabSlots }}" as="slot" hint-placeholder-count="5">
+            <article style="border: 4px solid #000; background: #fff;">
+              <button type="button" aria-expanded="{{ slot.open }}" onClick="{{ slot.onToggle }}" style="width: 100%; min-height: 64px; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 0; background: transparent; color: #1b1b1b; cursor: pointer; text-align: left;">
+                <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; letter-spacing: 0.08em; min-width: 52px;">{{ slot.start }}</span>
+                <span style="flex: 1; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 19px; line-height: 1.05; text-transform: uppercase;">{{ slot.name }}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 20px; line-height: 1;">{{ slot.sign }}</span>
+              </button>
+              <sc-if value="{{ slot.open }}" hint-placeholder-val="{{ false }}">
+                <div style="border-top: 2px solid #000; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                  <p style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; line-height: 24px;">{{ slot.blurb }}</p>
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+                    <span style="border: 2px solid #000; padding: 5px 10px;">{{ slot.genre }}</span>
+                    <span style="border: 2px solid #000; padding: 5px 10px;">{{ slot.role }}</span>
+                    <span style="border: 2px solid #000; padding: 5px 10px;">{{ slot.window }}</span>
+                  </div>
+                </div>
+              </sc-if>
+            </article>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <figure style="margin: 0; border-bottom: 4px solid #000;">
+      <img src="assets/coming-soon.png" alt="More acts coming soon" style="display: block; width: 100%; max-height: 420px; object-fit: cover;">
+    </figure>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isSpecials }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <section style="padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px); border-bottom: 4px solid #000;">
+      <h1 style="margin: 0 0 18px; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(38px, 8cqi, 80px); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase;">SPECIALS</h1>
+      <p style="margin: 0 0 30px; max-width: 620px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 28px;">Everything that happens between the stages. Free with every ticket unless marked otherwise — some of it needs a slot, so book on site early.</p>
+
+      <div role="group" aria-label="Special filter" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px;">
+        <sc-for list="{{ specialFilters }}" as="sf" hint-placeholder-count="4">
+          <button type="button" onClick="{{ sf.onSelect }}" aria-pressed="{{ sf.active }}" style="border: 2px solid #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 9px 14px; cursor: pointer; background: {{ sf.bg }}; color: {{ sf.fg }};">{{ sf.label }}</button>
+        </sc-for>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px;">
+        <sc-for list="{{ visibleSpecials }}" as="sp" hint-placeholder-count="6">
+          <button type="button" onClick="{{ sp.onOpen }}" style="border: 4px solid #000; background: #fff; color: #000; padding: 22px; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 12px; min-height: 250px; transition: background 200ms, color 200ms;" style-hover="background: #000; color: #fff;">
+            <span style="display: flex; justify-content: space-between; gap: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;"><span>{{ sp.time }}</span><span>{{ sp.place }}</span></span>
+            <span style="padding-bottom: 12px; border-bottom: 4px solid currentColor; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(24px, 3.2cqi, 36px); line-height: 0.98; text-transform: uppercase;">{{ sp.title }}</span>
+            <span style="flex: 1; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 17px; line-height: 26px;">{{ sp.blurb }}</span>
+            <span style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+              <span style="border: 2px solid currentColor; padding: 5px 10px;">{{ sp.tag }}</span>
+              <span style="border: 2px solid currentColor; padding: 5px 10px;">{{ sp.price }}</span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px); border-bottom: 4px solid #000;">
+      <div style="border: 4px solid #000; background: #000; color: #fff; padding: clamp(20px, 3cqi, 36px); display: flex; flex-direction: column; gap: 16px;">
+        <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(26px, 3.6cqi, 40px); line-height: 0.96; text-transform: uppercase;">DRESSCODE: NONE. CONSENT: MANDATORY.</h2>
+        <p style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 28px;">Wear what makes you unstoppable. Latex, leather, patches, sweat. Our awareness team is on site all night, wearing white armbands — talk to them any time.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+          <span style="border: 2px solid #fff; padding: 6px 12px;">AWARENESS TEAM</span>
+          <span style="border: 2px solid #fff; padding: 6px 12px;">SAFER SPACE</span>
+          <span style="border: 2px solid #fff; padding: 6px 12px;">NO PHOTOS ON FLOOR</span>
+        </div>
+      </div>
+      <figure style="margin: 0; border: 4px solid #000; overflow: hidden; min-height: 300px;">
+        <img src="assets/dresscode.jpeg" alt="Dresscode" style="display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.2);">
+      </figure>
+    </section>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isTickets }}" hint-placeholder-val="{{ false }}">
+  <main>
+    <sc-if value="{{ orderDone }}" hint-placeholder-val="{{ false }}">
+      <section style="padding: clamp(36px, 7cqi, 96px) clamp(16px, 4cqi, 48px); display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; border-bottom: 4px solid #000;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #5d5f5f;">ORDER CONFIRMED</span>
+        <h1 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(36px, 7.4cqi, 76px); line-height: 0.88; letter-spacing: -0.04em; text-transform: uppercase;">YOU'RE ON THE LIST.</h1>
+        <p style="margin: 0; max-width: 520px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 28px;">Ticket code and the secret location go out by mail 48 hours before doors. Screenshot it — reception at the site is a rumour.</p>
+        <div style="border: 4px solid #000; background: #000; color: #fff; padding: 22px 28px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase;">{{ orderSummaryLine }}</div>
+        <button type="button" onClick="{{ resetOrder }}" style="border: 4px solid #000; background: #fff; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; padding: 16px 28px; cursor: pointer;" style-hover="background: #000; color: #fff;">START A NEW ORDER</button>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ orderOpen }}" hint-placeholder-val="{{ true }}">
+    <section style="padding: clamp(28px, 5cqi, 72px) clamp(16px, 4cqi, 48px); border-bottom: 4px solid #000;">
+      <h1 style="margin: 0 0 18px; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(38px, 8cqi, 80px); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase;">TICKETS</h1>
+      <p style="margin: 0 0 32px; max-width: 620px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 28px;">One ticket, both stages, all specials. Nobody is turned away for money — solidarity tickets fund free entries.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; align-items: start;">
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <sc-for list="{{ tiers }}" as="tier" hint-placeholder-count="3">
+              <article style="border: 4px solid #000; background: {{ tier.bg }}; color: {{ tier.fg }}; padding: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px;">
+                <div style="flex: 1 1 160px; display: flex; flex-direction: column; gap: 6px;">
+                  <span style="font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(20px, 2.8cqi, 26px); text-transform: uppercase;">{{ tier.name }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75;">{{ tier.note }}</span>
+                </div>
+                <span style="font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(24px, 3cqi, 30px); letter-spacing: -0.02em;">{{ tier.price }}</span>
+                <div style="display: flex; align-items: center; gap: 0;">
+                  <button type="button" onClick="{{ tier.onMinus }}" aria-label="Minus" style="width: 48px; height: 48px; border: 4px solid currentColor; background: transparent; color: inherit; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; cursor: pointer;">–</button>
+                  <span aria-live="polite" style="min-width: 52px; height: 48px; display: flex; align-items: center; justify-content: center; border: 4px solid currentColor; border-left: 0; border-right: 0; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 16px;">{{ tier.qty }}</span>
+                  <button type="button" onClick="{{ tier.onPlus }}" aria-label="Plus" style="width: 48px; height: 48px; border: 4px solid currentColor; background: transparent; color: inherit; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; cursor: pointer;">+</button>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+
+          <div>
+            <h2 style="margin: 0 0 14px; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(22px, 3cqi, 30px); text-transform: uppercase;">ADD-ONS</h2>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <sc-for list="{{ addons }}" as="ad" hint-placeholder-count="3">
+                <button type="button" onClick="{{ ad.onToggle }}" aria-pressed="{{ ad.active }}" style="border: 4px solid #000; background: #fff; color: #000; padding: 16px; display: flex; align-items: center; gap: 16px; cursor: pointer; text-align: left; min-height: 64px;">
+                  <span aria-hidden="true" style="width: 32px; height: 32px; border: 4px solid #000; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; background: {{ ad.boxBg }}; color: {{ ad.boxFg }};">{{ ad.mark }}</span>
+                  <span style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+                    <span style="font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 19px; text-transform: uppercase;">{{ ad.name }}</span>
+                    <span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 15px; line-height: 22px; color: #4c4546;">{{ ad.note }}</span>
+                  </span>
+                  <span style="font-family: 'Anybody', sans-serif; font-weight: 900; font-size: 20px;">{{ ad.price }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <aside style="border: 4px solid #000; background: #000; color: #fff; padding: 24px; display: flex; flex-direction: column; gap: 18px; position: sticky; top: 96px;">
+          <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: 28px; letter-spacing: -0.02em; text-transform: uppercase;">YOUR ORDER</h2>
+          <div style="display: flex; flex-direction: column; gap: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;">
+            <sc-for list="{{ orderLines }}" as="line" hint-placeholder-count="2">
+              <div style="display: flex; justify-content: space-between; gap: 12px;"><span>{{ line.label }}</span><span>{{ line.amount }}</span></div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ orderEmpty }}" hint-placeholder-val="{{ false }}">
+            <p style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 15px; line-height: 23px; color: #c6c6c6;">Nothing selected yet. Pick a tier above.</p>
+          </sc-if>
+          <div style="border-top: 4px solid #fff; padding-top: 16px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;">TOTAL</span>
+            <span style="font-family: 'Anybody', sans-serif; font-weight: 900; font-size: 38px; letter-spacing: -0.03em;">{{ total }}</span>
+          </div>
+          <button type="button" onClick="{{ checkout }}" disabled="{{ orderEmpty }}" style="border: 4px solid #fff; background: #fff; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; padding: 18px; cursor: pointer; opacity: {{ checkoutOpacity }};">GO TO CHECKOUT</button>
+          <p style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; line-height: 22px; color: #c6c6c6;">Solidarity tickets without proof: crew@rokk.xyz</p>
+        </aside>
+      </div>
+    </section>
+    </sc-if>
+  </main>
+  </sc-if>
+
+  <footer style="background: #000; color: #fff; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; padding: 22px clamp(16px, 4cqi, 48px); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+    <span style="font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 21px; letter-spacing: -0.01em;">PUNK X TEKK</span>
+    <nav style="display: flex; flex-wrap: wrap; gap: 16px;">
+      <sc-for list="{{ siteNav }}" as="n" hint-placeholder-count="4">
+        <button type="button" onClick="{{ n.onSelect }}" style="border: 0; background: transparent; color: #fff; padding: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;" style-hover="color: #ffb4a8;">{{ n.label }}</button>
+      </sc-for>
+    </nav>
+    <span style="opacity: 0.7;">©2026 ROKK — NO RACISM. NO SEXISM. NO HOMOPHOBIA.</span>
+  </footer>
+
+  <div data-mob-flex style="display: none; position: sticky; bottom: 0; z-index: 45; border-top: 4px solid #000; background: #f9f9f9; padding: 12px 16px; align-items: center; gap: 12px;">
+    <span style="flex: 1; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">{{ mobileBarLabel }}</span>
+    <button type="button" onClick="{{ goTickets }}" style="border: 4px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 14px 20px; min-height: 48px; cursor: pointer;">TICKETS</button>
+  </div>
+
+</div>
+</div>
+
+<sc-if value="{{ specialOpen }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-modal="true" aria-label="Special" onClick="{{ closeSpecial }}" style="position: fixed; inset: 0; z-index: 95; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto;">
+    <div onClick="{{ stop }}" style="background: #fff; border: 4px solid #000; width: 100%; max-width: 560px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 4px solid #000; padding: 18px 20px;">
+        <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: 28px; letter-spacing: -0.02em; text-transform: uppercase;">{{ specialTitle }}</h2>
+        <button type="button" onClick="{{ closeSpecial }}" aria-label="Close" style="width: 44px; height: 44px; border: 4px solid #000; background: #fff; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; cursor: pointer;" style-hover="background: #000; color: #fff;">X</button>
+      </div>
+      <div style="padding: 20px; display: flex; flex-direction: column; gap: 16px;">
+        <p style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 28px;">{{ specialBlurb }}</p>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; border-top: 2px solid #000; padding-top: 16px;">
+          <div style="display: flex; justify-content: space-between; gap: 12px;"><span>WHEN</span><span>{{ specialTime }}</span></div>
+          <div style="display: flex; justify-content: space-between; gap: 12px;"><span>WHERE</span><span>{{ specialPlace }}</span></div>
+          <div style="display: flex; justify-content: space-between; gap: 12px;"><span>PRICE</span><span>{{ specialPrice }}</span></div>
+        </div>
+        <button type="button" onClick="{{ closeSpecial }}" style="border: 4px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px; cursor: pointer;" style-hover="background: #fff; color: #000;">GOT IT</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300,&quot;height&quot;:900},&quot;startPage&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;lineup&quot;,&quot;specials&quot;,&quot;tickets&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;startMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;mobile&quot;],&quot;default&quot;:&quot;desktop&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const STAGES = [
+  { id: 'punk', label: 'OUTDOOR PUNK', description: 'Raw, unfiltered punk energy in an open-air setting. Mosh pits, distorted guitars, unapologetic attitude.' },
+  { id: 'tekk', label: 'TEKK RAVE', description: 'Relentless BPM, industrial sounds and heavy basslines moving into the night.' }
+];
+
+const SLOTS = [
+  { id: 's1', stage: 'punk', start: '18:00', end: '19:00', name: 'DOORS', role: 'OPENING', genre: 'AMBIENT', blurb: 'Gates open, soundcheck bleeds into the field. Merch and awareness desk are already staffed.' },
+  { id: 's2', stage: 'punk', start: '19:00', end: '19:45', name: 'TBA', role: 'LOCAL SUPPORT', genre: 'HARDCORE PUNK', blurb: 'Local support slot. Confirmed act announced four weeks before doors.' },
+  { id: 's3', stage: 'punk', start: '20:00', end: '20:45', name: 'TBA', role: 'SUPPORT', genre: 'STREETPUNK', blurb: 'Second support slot, reserved for a touring band from the regional DIY circuit.' },
+  { id: 's4', stage: 'punk', start: '21:15', end: '22:15', name: 'TBA', role: 'HEADLINER', genre: 'PUNK ROCK', blurb: 'Headline slot. The one name we are not allowed to print yet.' },
+  { id: 's5', stage: 'punk', start: '22:30', end: '23:15', name: 'TBA', role: 'SPECIAL GUEST', genre: 'CRUST', blurb: 'Late outdoor set before the field closes and everything moves inside.' },
+  { id: 's6', stage: 'tekk', start: '23:00', end: '00:30', name: 'SDWA5 SOUNDSYSTEM', role: 'RAVE START', genre: 'TEKK', blurb: 'Own rig, own rules. Sixteen stacks aimed at the concrete, warming the room from the floor up.' },
+  { id: 's7', stage: 'tekk', start: '00:30', end: '02:00', name: 'TBA', role: 'B2B SET', genre: 'HARDTEKK', blurb: 'Back-to-back slot. Two names, one deck, announced with the second lineup drop.' },
+  { id: 's8', stage: 'tekk', start: '02:00', end: '04:00', name: 'GIFTGRUBE', role: 'PEAK TIME', genre: 'SCHRANZ', blurb: 'Peak time. Relentless kicks, industrial loops, no melodic escape route.' },
+  { id: 's9', stage: 'tekk', start: '04:00', end: '06:00', name: 'BPM BERLIN', role: 'AFTER PEAK', genre: 'HARDTECHNO', blurb: 'The stretch where the room thins out and the regulars take over the front.' },
+  { id: 's10', stage: 'tekk', start: '06:00', end: '08:00', name: 'TBA', role: 'CLOSING', genre: 'DOWNTEMPO', blurb: 'Closing set into daylight. Slow, dubby, forgiving.' }
+];
+
+const SPECIALS = [
+  { id: 'sp1', title: 'WALL OF SOUND TOUR', category: 'SOUND', time: '19:30 / 21:30', place: 'RAVE HALL', price: 'FREE', tag: 'GUIDED', blurb: 'SDWA5 walk you through the rig: sixteen stacks, hand-built horns, why the sub row points at the floor and not at you. Ear protection handed out at the start.' },
+  { id: 'sp2', title: 'SIEBDRUCK CORNER', category: 'DIY', time: '18:00 — 23:00', place: 'BACKYARD TENT', price: 'FROM €5', tag: 'HANDS ON', blurb: 'Bring a shirt, leave with a print. Four rotating motifs from the ROKK archive plus a free-for-all stencil table. Materials at cost, no profit taken.' },
+  { id: 'sp3', title: 'PATCH & PIERCING', category: 'DIY', time: '19:00 — 01:00', place: 'SIDE ROOM 2', price: 'FROM €15', tag: 'WALK IN', blurb: 'Sterile setup, licensed piercer, one needle per person, no exceptions. Patch sewing station next door is free and staffed by people who can actually sew.' },
+  { id: 'sp4', title: 'SKATE RAMP JAM', category: 'SPORT', time: '18:00 — 22:00', place: 'OUTDOOR YARD', price: 'FREE', tag: 'OPEN SESSION', blurb: 'Mini ramp and a flat bar under the floodlights. Loaner boards and pads available; the jam turns into a best-trick around 21:00 while the punk stage resets.' },
+  { id: 'sp5', title: 'VEGAN FIELD KITCHEN', category: 'FOOD', time: '18:00 — 06:00', place: 'FIELD SOUTH', price: 'FROM €4', tag: 'ALL NIGHT', blurb: 'Soup, seitan döner, and something fried at 04:00 when you need it most. Solidarity plate available on request, no questions asked.' },
+  { id: 'sp6', title: 'AWARENESS LOUNGE', category: 'CARE', time: 'ALL NIGHT', place: 'NEXT TO ENTRY', price: 'FREE', tag: 'SAFER SPACE', blurb: 'Quiet room with low light, water, earplugs, and two people who are there for exactly one reason: you. White armbands, always findable.' },
+  { id: 'sp7', title: 'PUNK KARAOKE', category: 'STAGE', time: '01:00 — 02:30', place: 'SIDE ROOM 1', price: 'FREE', tag: 'PARTICIPATORY', blurb: 'Live backing band, you on the mic, thirty songs on the list and no key changes. Sign-up sheet opens at 22:00 and fills in ten minutes.' },
+  { id: 'sp8', title: 'RECORD SWAP', category: 'SOUND', time: '18:00 — 22:00', place: 'FOYER', price: 'FREE', tag: 'BRING & TAKE', blurb: 'Empty a crate, fill a crate. Punk, tekk, hardcore, obscure Eastern European pressings nobody can identify. Cash trades only, no discogs prices.' }
+];
+
+const TIERS = [
+  { id: 'early', name: 'EARLY RIOT', value: 22, note: 'LIMITED / 200 ONLY' },
+  { id: 'regular', name: 'REGULAR', value: 32, note: 'PRESALE UNTIL OCT 20' },
+  { id: 'solidarity', name: 'SOLIDARITY', value: 45, note: 'FUNDS A FREE TICKET' }
+];
+
+const ADDONS = [
+  { id: 'shuttle', name: 'NIGHT SHUTTLE', value: 6, note: 'Return trip, city centre — site, every 40 min.' },
+  { id: 'camping', name: 'CAMPING SPOT', value: 12, note: 'Bring your own tent. Quiet zone until 10:00.' },
+  { id: 'locker', name: 'LOCKER', value: 5, note: 'Big enough for a jacket, boots and a helmet.' }
+];
+
+const PAGES = [
+  { id: 'home', label: 'HOME' },
+  { id: 'lineup', label: 'LINE-UP' },
+  { id: 'specials', label: 'SPECIALS' },
+  { id: 'tickets', label: 'TICKETS' }
+];
+
+class Component extends DCLogic {
+  state = {
+    page: 'home', mode: 'desktop', menuOpen: false,
+    stage: 'all', genres: [], tab: 'punk', openSlot: null,
+    category: 'ALL', special: null,
+    qty: { early: 0, regular: 1, solidarity: 0 }, addons: [], done: false
+  };
+
+  componentDidMount() {
+    const p = this.props.startPage, m = this.props.startMode;
+    if (p && p !== this.state.page) this.setState({ page: p });
+    if (m && m !== this.state.mode) this.setState({ mode: m });
+    this._esc = (e) => { if (e.key === 'Escape') this.setState({ special: null }); };
+    window.addEventListener('keydown', this._esc);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this._esc); }
+
+  go(page) { this.setState({ page: page, menuOpen: false, done: false }); }
+
+  matches(slot) {
+    const s = this.state;
+    if (s.stage !== 'all' && slot.stage !== s.stage) return false;
+    if (s.genres.length && !s.genres.includes(slot.genre)) return false;
+    return true;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const acts = SLOTS.filter((x) => x.role !== 'OPENING');
+    const visible = acts.filter((x) => this.matches(x));
+    const genres = [];
+    acts.forEach((a) => { if (!genres.includes(a.genre)) genres.push(a.genre); });
+    const stageLabel = (id) => (STAGES.find((x) => x.id === id) || {}).label || '';
+
+    const norm = (t) => { const h = Number(t.slice(0, 2)); return (h < 12 ? h + 24 : h) * 60 + Number(t.slice(3, 5)); };
+    const times = [];
+    SLOTS.forEach((x) => { if (!times.includes(x.start)) times.push(x.start); });
+    times.sort((a, b) => norm(a) - norm(b));
+    const cell = (stage, time) => SLOTS.find((x) => x.stage === stage && x.start === time);
+
+    const categories = ['ALL'];
+    SPECIALS.forEach((x) => { if (!categories.includes(x.category)) categories.push(x.category); });
+    const visSpecials = SPECIALS.filter((x) => s.category === 'ALL' || x.category === s.category);
+    const openSpecial = SPECIALS.find((x) => x.id === s.special);
+
+    const ticketCount = TIERS.reduce((n, t) => n + (s.qty[t.id] || 0), 0);
+    const ticketSum = TIERS.reduce((n, t) => n + (s.qty[t.id] || 0) * t.value, 0);
+    const addonSum = ADDONS.filter((a) => s.addons.includes(a.id)).reduce((n, a) => n + a.value * Math.max(1, ticketCount), 0);
+    const total = ticketSum + addonSum;
+
+    const lines = [];
+    TIERS.forEach((t) => {
+      const q = s.qty[t.id] || 0;
+      if (q) lines.push({ label: q + '× ' + t.name, amount: '€' + q * t.value });
+    });
+    ADDONS.forEach((a) => {
+      if (s.addons.includes(a.id)) lines.push({ label: a.name + ' ×' + Math.max(1, ticketCount), amount: '€' + a.value * Math.max(1, ticketCount) });
+    });
+
+    const bump = (id, d) => this.setState((st) => {
+      const q = Object.assign({}, st.qty);
+      q[id] = Math.max(0, Math.min(9, (q[id] || 0) + d));
+      return { qty: q };
+    });
+
+    return {
+      frameWidth: s.mode === 'mobile' ? '390px' : '1200px',
+      menuOpen: s.menuOpen,
+      menuIcon: s.menuOpen ? 'X' : '≡',
+      toggleMenu: () => this.setState((st) => ({ menuOpen: !st.menuOpen })),
+      isHome: s.page === 'home',
+      isLineup: s.page === 'lineup',
+      isSpecials: s.page === 'specials',
+      isTickets: s.page === 'tickets',
+      goHome: () => this.go('home'),
+      goLineup: () => this.go('lineup'),
+      goSpecials: () => this.go('specials'),
+      goTickets: () => this.go('tickets'),
+      mobileBarLabel: 'SAT / OCT 26 — FROM €22',
+
+      pageNav: PAGES.map((p) => ({
+        label: p.label, active: s.page === p.id,
+        bg: s.page === p.id ? '#fff' : 'transparent',
+        fg: s.page === p.id ? '#000' : '#fff',
+        onSelect: () => this.go(p.id)
+      })),
+      modeNav: [{ id: 'desktop', label: 'DESKTOP' }, { id: 'mobile', label: 'MOBILE' }].map((m) => ({
+        label: m.label, active: s.mode === m.id,
+        bg: s.mode === m.id ? '#fff' : 'transparent',
+        fg: s.mode === m.id ? '#000' : '#848484',
+        onSelect: () => this.setState({ mode: m.id, menuOpen: false })
+      })),
+      siteNav: PAGES.map((p) => ({
+        label: p.label, active: s.page === p.id ? 'page' : 'false',
+        bg: s.page === p.id ? '#000' : 'transparent',
+        fg: s.page === p.id ? '#fff' : '#5d5f5f',
+        onSelect: () => this.go(p.id)
+      })),
+
+      stageTeasers: STAGES.map((st) => ({
+        label: st.label,
+        description: st.description,
+        rows: SLOTS.filter((x) => x.stage === st.id).slice(0, 3).map((x) => ({ time: x.start, label: x.role }))
+      })),
+
+      specialTeasers: SPECIALS.slice(0, 3).map((x) => ({
+        title: x.title, time: x.time, tag: x.tag,
+        onOpen: () => this.setState({ special: x.id })
+      })),
+
+      visibleCountLabel: visible.length + ' / ' + acts.length + ' SETS SHOWN',
+      noResults: visible.length === 0,
+      stageFilters: [{ id: 'all', label: 'ALL STAGES' }].concat(STAGES.map((x) => ({ id: x.id, label: x.label })))
+        .map((x) => ({
+          label: x.label, active: s.stage === x.id,
+          bg: s.stage === x.id ? '#000' : '#fff',
+          fg: s.stage === x.id ? '#fff' : '#000',
+          onSelect: () => this.setState({ stage: x.id })
+        })),
+      genreFilters: genres.map((g) => ({
+        label: g, active: s.genres.includes(g),
+        bg: s.genres.includes(g) ? '#000' : 'transparent',
+        fg: s.genres.includes(g) ? '#fff' : '#1b1b1b',
+        onSelect: () => this.setState((st) => ({
+          genres: st.genres.includes(g) ? st.genres.filter((x) => x !== g) : st.genres.concat([g])
+        }))
+      })),
+      visibleActs: visible.map((a) => ({
+        name: a.name, window: a.start + '–' + a.end, role: a.role,
+        genre: a.genre, blurb: a.blurb, stageLabel: stageLabel(a.stage)
+      })),
+      gridRows: times.map((t) => {
+        const p = cell('punk', t); const k = cell('tekk', t);
+        const on = (x) => !!x && this.matches(x);
+        return {
+          time: t,
+          punkName: p ? p.name : '—',
+          punkMeta: p ? p.role + ' / ' + p.genre : '',
+          punkBg: on(p) ? '#000' : '#fff',
+          punkFg: on(p) ? '#fff' : (p ? '#1b1b1b' : '#cfc4c5'),
+          tekkName: k ? k.name : '—',
+          tekkMeta: k ? k.role + ' / ' + k.genre : '',
+          tekkBg: on(k) ? '#000' : '#fff',
+          tekkFg: on(k) ? '#fff' : (k ? '#1b1b1b' : '#cfc4c5')
+        };
+      }),
+      stageTabs: STAGES.map((x) => ({
+        label: x.label, active: s.tab === x.id,
+        bg: s.tab === x.id ? '#000' : '#fff',
+        fg: s.tab === x.id ? '#fff' : '#000',
+        onSelect: () => this.setState({ tab: x.id, openSlot: null })
+      })),
+      tabSlots: SLOTS.filter((x) => x.stage === s.tab).map((x) => ({
+        start: x.start, name: x.name, role: x.role, genre: x.genre, blurb: x.blurb,
+        window: x.start + '–' + x.end,
+        open: s.openSlot === x.id,
+        sign: s.openSlot === x.id ? '–' : '+',
+        onToggle: () => this.setState((st) => ({ openSlot: st.openSlot === x.id ? null : x.id }))
+      })),
+
+      specialFilters: categories.map((c) => ({
+        label: c, active: s.category === c,
+        bg: s.category === c ? '#000' : 'transparent',
+        fg: s.category === c ? '#fff' : '#1b1b1b',
+        onSelect: () => this.setState({ category: c })
+      })),
+      visibleSpecials: visSpecials.map((x) => ({
+        title: x.title, time: x.time, place: x.place, blurb: x.blurb, tag: x.tag, price: x.price,
+        onOpen: () => this.setState({ special: x.id })
+      })),
+      specialOpen: !!openSpecial,
+      specialTitle: openSpecial ? openSpecial.title : '',
+      specialBlurb: openSpecial ? openSpecial.blurb : '',
+      specialTime: openSpecial ? openSpecial.time : '',
+      specialPlace: openSpecial ? openSpecial.place : '',
+      specialPrice: openSpecial ? openSpecial.price : '',
+      closeSpecial: () => this.setState({ special: null }),
+      stop: (e) => e.stopPropagation(),
+
+      tiers: TIERS.map((t) => {
+        const q = s.qty[t.id] || 0;
+        return {
+          name: t.name, note: t.note, price: '€' + t.value, qty: q,
+          bg: q > 0 ? '#000' : '#fff',
+          fg: q > 0 ? '#fff' : '#1b1b1b',
+          onPlus: () => bump(t.id, 1),
+          onMinus: () => bump(t.id, -1)
+        };
+      }),
+      addons: ADDONS.map((a) => {
+        const on = s.addons.includes(a.id);
+        return {
+          name: a.name, note: a.note, price: '€' + a.value,
+          active: on, mark: on ? 'X' : '',
+          boxBg: on ? '#000' : '#fff',
+          boxFg: on ? '#fff' : '#000',
+          onToggle: () => this.setState((st) => ({
+            addons: st.addons.includes(a.id) ? st.addons.filter((x) => x !== a.id) : st.addons.concat([a.id])
+          }))
+        };
+      }),
+      orderLines: lines,
+      orderEmpty: ticketCount === 0,
+      total: '€' + total,
+      checkoutOpacity: ticketCount === 0 ? '0.45' : '1',
+      orderOpen: !s.done,
+      orderDone: s.done,
+      orderSummaryLine: ticketCount + ' TICKET' + (ticketCount === 1 ? '' : 'S') + ' — €' + total,
+      checkout: () => { if (ticketCount > 0) this.setState({ done: true }); },
+      resetOrder: () => this.setState({ done: false, qty: { early: 0, regular: 1, solidarity: 0 }, addons: [] })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

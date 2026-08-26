@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PUNK X TEKK — COLLISION OF SUBCULTURES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Hanken+Grotesk:ital,wght@0,100..900&family=JetBrains+Mono:wght@400..800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #f9f9f9; }
+  body { font-family: 'Hanken Grotesk', sans-serif; color: #1b1b1b; -webkit-font-smoothing: antialiased; }
+  ::selection { background: #000; color: #fff; }
+  a { color: #000; text-decoration: none; }
+  a:hover { color: #ff291a; }
+  @keyframes pxt-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes pxt-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.15; } }
+  @media (max-width: 900px) { [data-desk] { display: none !important; } [data-mob] { display: block !important; } }
+  @media (min-width: 901px) { [data-mob] { display: none !important; } }
+</style>
+</helmet>
+
+<div style="max-width: 100%; overflow-x: hidden; background: #f9f9f9;">
+
+<header style="position: sticky; top: 0; z-index: 60; background: #f9f9f9; border-bottom: 4px solid #000; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px clamp(16px, 5vw, 64px);">
+  <span style="font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(20px, 3.4vw, 34px); line-height: 1; letter-spacing: -0.03em; text-transform: uppercase; color: #000;">PUNK X TEKK</span>
+  <nav data-desk style="display: flex; gap: 6px; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase;">
+    <a href="#manifesto" style="padding: 6px 10px; color: #000; transition: background 120ms, color 120ms;" style-hover="background: #000; color: #fff;">MANIFESTO</a>
+    <a href="#lineup" style="padding: 6px 10px; color: #5d5f5f; transition: background 120ms, color 120ms;" style-hover="background: #000; color: #fff;">LINEUP</a>
+    <a href="#timetable" style="padding: 6px 10px; color: #5d5f5f; transition: background 120ms, color 120ms;" style-hover="background: #000; color: #fff;">TIMETABLE</a>
+    <a href="#awareness" style="padding: 6px 10px; color: #5d5f5f; transition: background 120ms, color 120ms;" style-hover="background: #000; color: #fff;">AWARENESS</a>
+  </nav>
+  <button type="button" onClick="{{ openTickets }}" style="border: 4px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 18px; cursor: pointer; transition: background 120ms, color 120ms;" style-hover="background: #fff; color: #000;">{{ ctaLabel }}</button>
+</header>
+
+<main style="max-width: 1200px; margin: 0 auto; width: 100%;">
+
+  <section id="manifesto" style="display: flex; flex-wrap: wrap; align-items: center; gap: clamp(24px, 5vw, 56px); padding: clamp(32px, 6vw, 72px) clamp(16px, 5vw, 64px); border-bottom: 4px solid #000;">
+    <div style="flex: 1 1 300px; display: flex; justify-content: center;">
+      <img src="assets/rokk-logo.jpeg" alt="ROKK" style="width: 100%; max-width: 440px; aspect-ratio: 1; object-fit: cover; border: 4px solid #000; background: #fff; display: block;">
+    </div>
+    <div style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 24px;">
+      <h1 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(44px, 7.2vw, 80px); line-height: 0.9; letter-spacing: -0.035em; text-transform: uppercase; color: #000; text-wrap: balance;">RECLAIMING THE UNDERGROUND. BOLD SOUNDS, RAW ENERGY, NO COMPROMISE.</h1>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;">
+        <span style="border: 2px solid #000; padding: 8px 14px; background: #000; color: #fff;">{{ eventDate }}</span>
+        <span style="border: 2px solid #000; padding: 8px 14px;">{{ eventVenue }}</span>
+        <span style="border: 2px solid #000; padding: 8px 14px;">18:00 — 08:00</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="position: relative; border-bottom: 4px solid #000; display: flex; align-items: center; justify-content: center; padding: clamp(40px, 8vw, 96px) clamp(16px, 5vw, 64px); background: #111; overflow: hidden;">
+    <img src="assets/soundsystem.jpeg" alt="" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.35; filter: grayscale(1) contrast(1.4);">
+    <div style="position: relative; z-index: 2; background: #fff; border: 4px solid #000; padding: clamp(24px, 4vw, 48px); max-width: 780px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; transform: rotate(-2deg); transition: transform 300ms;" style-hover="transform: rotate(0deg);">
+      <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #5d5f5f;">ROKK PRESENTS</span>
+      <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(40px, 7vw, 80px); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase; color: #000;">COLLISION OF SUBCULTURES</h2>
+      <div style="display: flex; gap: 12px;">
+        <span style="border: 2px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; padding: 8px 16px;">PUNK</span>
+        <span style="border: 2px solid #000; background: #fff; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; padding: 8px 16px;">TEKK</span>
+      </div>
+      <button type="button" onClick="{{ openTickets }}" style="border: 4px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px 34px; cursor: pointer; transition: background 120ms, color 120ms;" style-hover="background: #fff; color: #000;">{{ ctaLabel }}</button>
+    </div>
+  </section>
+
+  <div id="awareness" style="border-bottom: 4px solid #000; background: #000; color: #fff; padding: 14px 0; overflow: hidden; white-space: nowrap;">
+    <div style="display: inline-block; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(18px, 2.4vw, 24px); letter-spacing: 0.01em; text-transform: uppercase; animation: pxt-marquee 26s linear infinite;">NO RACISM • NO SEXISM • NO HOMOPHOBIA • OPEN SPACE • MERGING SUBCULTURES • RESPECT THE VIBE • NO RACISM • NO SEXISM • NO HOMOPHOBIA • OPEN SPACE • MERGING SUBCULTURES • RESPECT THE VIBE • </div>
+  </div>
+
+  <section id="lineup" style="padding: clamp(32px, 6vw, 72px) clamp(16px, 5vw, 64px); border-bottom: 4px solid #000;">
+    <div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 32px;">
+      <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(40px, 7vw, 80px); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase; color: #000;">LINE-UP</h2>
+      <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #5d5f5f;">{{ visibleCountLabel }}</span>
+    </div>
+
+    <div role="group" aria-label="Filter" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;">
+      <sc-for list="{{ stageFilters }}" as="f" hint-placeholder-count="3">
+        <button type="button" onClick="{{ f.onSelect }}" aria-pressed="{{ f.active }}" style="border: 4px solid #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 12px 20px; cursor: pointer; background: {{ f.bg }}; color: {{ f.fg }};">{{ f.label }}</button>
+      </sc-for>
+    </div>
+    <div role="group" aria-label="Genres" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;">
+      <sc-for list="{{ genreFilters }}" as="g" hint-placeholder-count="6">
+        <button type="button" onClick="{{ g.onSelect }}" aria-pressed="{{ g.active }}" style="border: 2px solid #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 12px; cursor: pointer; background: {{ g.bg }}; color: {{ g.fg }};">{{ g.label }}</button>
+      </sc-for>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
+      <sc-for list="{{ visibleActs }}" as="act" hint-placeholder-count="6">
+        <article style="border: 4px solid #000; background: #fff; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-height: 260px; transition: background 200ms, color 200ms;" style-hover="background: #000; color: #fff;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+            <span>{{ act.stageLabel }}</span>
+            <span>{{ act.start }}</span>
+          </div>
+          <h3 style="margin: 0; padding-bottom: 12px; border-bottom: 4px solid currentColor; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(26px, 3vw, 40px); line-height: 0.95; letter-spacing: -0.01em; text-transform: uppercase; text-wrap: balance;">{{ act.name }}</h3>
+          <p style="margin: 0; flex: 1; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 17px; line-height: 26px;">{{ act.blurb }}</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+            <span style="border: 2px solid currentColor; padding: 5px 10px;">{{ act.genre }}</span>
+            <span style="border: 2px solid currentColor; padding: 5px 10px;">{{ act.role }}</span>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+      <div style="border: 4px solid #000; padding: 40px; text-align: center; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 24px; text-transform: uppercase;">NOTHING MATCHES. LOOSEN THE FILTER.</div>
+    </sc-if>
+
+    <figure style="margin: 40px 0 0; border: 4px solid #000; overflow: hidden;">
+      <img src="assets/coming-soon.png" alt="Coming soon — Punk Rave" style="display: block; width: 100%; max-height: 420px; object-fit: cover; transition: transform 500ms;" style-hover="transform: scale(1.04);">
+    </figure>
+  </section>
+
+  <section id="timetable" style="padding: clamp(32px, 6vw, 72px) clamp(16px, 5vw, 64px); border-bottom: 4px solid #000; background: #eeeeee;">
+    <h2 style="margin: 0 0 32px; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(40px, 7vw, 80px); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase; color: #000;">TIMETABLE</h2>
+
+    <div data-desk style="border: 4px solid #000; background: #fff;">
+      <div style="display: grid; grid-template-columns: 108px 1fr 1fr; border-bottom: 4px solid #000;">
+        <div style="padding: 14px; border-right: 2px solid #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5d5f5f;">TIME</div>
+        <div style="padding: 14px; border-right: 2px solid #000; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase;">OUTDOOR PUNK</div>
+        <div style="padding: 14px; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase;">TEKK RAVE</div>
+      </div>
+      <sc-for list="{{ gridRows }}" as="row" hint-placeholder-count="8">
+        <div style="display: grid; grid-template-columns: 108px 1fr 1fr; border-top: 2px solid #cfc4c5;">
+          <div style="padding: 16px 14px; border-right: 2px solid #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; letter-spacing: 0.08em;">{{ row.time }}</div>
+          <div style="padding: 16px 14px; border-right: 2px solid #000; background: {{ row.punkBg }}; color: {{ row.punkFg }};">
+            <div style="font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 20px; line-height: 1.05; text-transform: uppercase;">{{ row.punkName }}</div>
+            <div style="margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7;">{{ row.punkMeta }}</div>
+          </div>
+          <div style="padding: 16px 14px; background: {{ row.tekkBg }}; color: {{ row.tekkFg }};">
+            <div style="font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 20px; line-height: 1.05; text-transform: uppercase;">{{ row.tekkName }}</div>
+            <div style="margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7;">{{ row.tekkMeta }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div data-mob style="display: none;">
+      <div role="tablist" style="display: flex; gap: 0; border: 4px solid #000; margin-bottom: 20px;">
+        <sc-for list="{{ stageTabs }}" as="t" hint-placeholder-count="2">
+          <button type="button" role="tab" aria-selected="{{ t.active }}" onClick="{{ t.onSelect }}" style="flex: 1; min-height: 56px; border: 0; border-right: 2px solid #000; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 16px; text-transform: uppercase; cursor: pointer; background: {{ t.bg }}; color: {{ t.fg }};">{{ t.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <sc-for list="{{ tabSlots }}" as="slot" hint-placeholder-count="5">
+          <article style="border: 4px solid #000; background: #fff;">
+            <button type="button" aria-expanded="{{ slot.open }}" onClick="{{ slot.onToggle }}" style="width: 100%; min-height: 64px; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 0; background: transparent; color: #1b1b1b; cursor: pointer; text-align: left;">
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; letter-spacing: 0.08em; min-width: 52px;">{{ slot.start }}</span>
+              <span style="flex: 1; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 20px; line-height: 1.05; text-transform: uppercase;">{{ slot.name }}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 20px; line-height: 1;">{{ slot.sign }}</span>
+            </button>
+            <sc-if value="{{ slot.open }}" hint-placeholder-val="{{ false }}">
+              <div style="border-top: 2px solid #000; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+                <p style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 16px; line-height: 24px;">{{ slot.blurb }}</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+                  <span style="border: 2px solid #000; padding: 5px 10px;">{{ slot.genre }}</span>
+                  <span style="border: 2px solid #000; padding: 5px 10px;">{{ slot.role }}</span>
+                  <span style="border: 2px solid #000; padding: 5px 10px;">{{ slot.window }}</span>
+                </div>
+              </div>
+            </sc-if>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: clamp(32px, 6vw, 72px) clamp(16px, 5vw, 64px); border-bottom: 4px solid #000; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; align-items: stretch;">
+    <div style="border: 4px solid #000; background: #000; color: #fff; padding: clamp(22px, 3vw, 36px); display: flex; flex-direction: column; gap: 18px;">
+      <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(30px, 4vw, 40px); line-height: 0.95; letter-spacing: -0.01em; text-transform: uppercase;">DRESSCODE: NONE. CONSENT: MANDATORY.</h2>
+      <p style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 28px;">Wear what makes you unstoppable. Latex, leather, patches, sweat. Our awareness team is on site all night, wearing white armbands — talk to them any time.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;">
+        <span style="border: 2px solid #fff; padding: 6px 12px;">AWARENESS TEAM</span>
+        <span style="border: 2px solid #fff; padding: 6px 12px;">SAFER SPACE</span>
+        <span style="border: 2px solid #fff; padding: 6px 12px;">NO PHOTOS ON FLOOR</span>
+      </div>
+    </div>
+    <figure style="margin: 0; border: 4px solid #000; overflow: hidden; min-height: 320px;">
+      <img src="assets/dresscode.jpeg" alt="Dresscode" style="display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.2);">
+    </figure>
+  </section>
+
+  <section style="padding: clamp(32px, 6vw, 72px) clamp(16px, 5vw, 64px); border-bottom: 4px solid #000; background: #eeeeee;">
+    <h2 style="margin: 0 0 32px; text-align: center; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.01em; text-transform: uppercase;">COLLABORATORS</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 24px;">
+      <div style="border: 4px solid #000; background: #000; color: #fff; padding: 22px 32px; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase; transition: background 120ms, color 120ms;" style-hover="background: #fff; color: #000;">SDWA5 SOUNDSYSTEM</div>
+      <div style="border: 4px solid #000; background: #fff; color: #000; padding: 22px 32px; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase; transition: background 120ms, color 120ms;" style-hover="background: #000; color: #fff;">GIFTGRUBE</div>
+      <div style="border: 4px solid #000; background: #000; color: #fff; padding: 22px 32px; font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase; transition: background 120ms, color 120ms;" style-hover="background: #fff; color: #000;">BPM BERLIN</div>
+    </div>
+  </section>
+
+  <section style="padding: clamp(36px, 7vw, 88px) clamp(16px, 5vw, 64px); display: flex; flex-direction: column; align-items: center; gap: 28px; text-align: center;">
+    <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: clamp(40px, 7vw, 80px); line-height: 0.86; letter-spacing: -0.04em; text-transform: uppercase;">DON'T WAIT FOR THE DOOR LIST.</h2>
+    <p style="margin: 0; max-width: 620px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 18px; line-height: 28px;">Capacity is hard-capped by the soundsystem, not by hype. Presale closes when the last riser is sold.</p>
+    <button type="button" onClick="{{ openTickets }}" style="border: 4px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; padding: 20px 44px; cursor: pointer; transition: background 120ms, color 120ms;" style-hover="background: #fff; color: #000;">{{ ctaLabel }}</button>
+  </section>
+</main>
+
+<footer style="background: #000; color: #fff; border-top: 4px solid #000; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 24px clamp(16px, 5vw, 64px); font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;">
+  <div style="font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.01em;">PUNK X TEKK</div>
+  <nav style="display: flex; flex-wrap: wrap; gap: 20px;">
+    <a href="#manifesto" style="color: #fff;" style-hover="color: #ffb4a8;">MANIFESTO</a>
+    <a href="#lineup" style="color: #fff;" style-hover="color: #ffb4a8;">LINEUP</a>
+    <a href="#timetable" style="color: #fff;" style-hover="color: #ffb4a8;">TIMETABLE</a>
+    <a href="#awareness" style="color: #fff;" style-hover="color: #ffb4a8;">AWARENESS</a>
+  </nav>
+  <div style="opacity: 0.7;">©2026 ROKK — NO RACISM. NO SEXISM. NO HOMOPHOBIA.</div>
+</footer>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-modal="true" aria-label="Tickets" onClick="{{ closeTickets }}" style="position: fixed; inset: 0; z-index: 90; background: rgba(0,0,0,0.72); display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto;">
+    <div onClick="{{ stop }}" style="background: #fff; border: 4px solid #000; width: 100%; max-width: 620px; display: flex; flex-direction: column;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 4px solid #000; padding: 18px 22px;">
+        <h2 style="margin: 0; font-family: 'Anybody', sans-serif; font-weight: 900; font-size: 32px; letter-spacing: -0.02em; text-transform: uppercase;">TICKETS</h2>
+        <button type="button" onClick="{{ closeTickets }}" aria-label="Close" style="width: 44px; height: 44px; border: 4px solid #000; background: #fff; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 18px; cursor: pointer;" style-hover="background: #000; color: #fff;">X</button>
+      </div>
+      <div style="padding: 22px; display: flex; flex-direction: column; gap: 14px;">
+        <sc-for list="{{ tiers }}" as="tier" hint-placeholder-count="3">
+          <button type="button" onClick="{{ tier.onSelect }}" style="border: 4px solid #000; padding: 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; text-align: left; background: {{ tier.bg }}; color: {{ tier.fg }};">
+            <span style="display: flex; flex-direction: column; gap: 6px;">
+              <span style="font-family: 'Anybody', sans-serif; font-weight: 800; font-size: 22px; text-transform: uppercase;">{{ tier.name }}</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75;">{{ tier.note }}</span>
+            </span>
+            <span style="font-family: 'Anybody', sans-serif; font-weight: 900; font-size: 28px; letter-spacing: -0.02em;">{{ tier.price }}</span>
+          </button>
+        </sc-for>
+        <p style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 15px; line-height: 23px; color: #4c4546;">Solidarity tickets are available without proof — write to crew@rokk.xyz. Nobody is turned away for money.</p>
+        <button type="button" onClick="{{ closeTickets }}" style="border: 4px solid #000; background: #000; color: #fff; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; padding: 18px; cursor: pointer;" style-hover="background: #fff; color: #000;">{{ checkoutLabel }}</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;eventDate&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;SAT / OCT 26&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;eventVenue&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;SECRET LOCATION&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;soldOut&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const STAGES = [
+  { id: 'punk', label: 'OUTDOOR PUNK', short: 'PUNK' },
+  { id: 'tekk', label: 'TEKK RAVE', short: 'TEKK' }
+];
+
+const SLOTS = [
+  { id: 's1', stage: 'punk', start: '18:00', end: '19:00', name: 'DOORS', role: 'OPENING', genre: 'AMBIENT', tba: false, blurb: 'Gates open, soundcheck bleeds into the field. Merch and awareness desk are already staffed.' },
+  { id: 's2', stage: 'punk', start: '19:00', end: '19:45', name: 'TBA', role: 'LOCAL SUPPORT', genre: 'HARDCORE PUNK', tba: true, blurb: 'Local support slot. Confirmed act announced four weeks before doors.' },
+  { id: 's3', stage: 'punk', start: '20:00', end: '20:45', name: 'TBA', role: 'SUPPORT', genre: 'STREETPUNK', tba: true, blurb: 'Second support slot, reserved for a touring band from the regional DIY circuit.' },
+  { id: 's4', stage: 'punk', start: '21:15', end: '22:15', name: 'TBA', role: 'HEADLINER', genre: 'PUNK ROCK', tba: true, blurb: 'Headline slot. The one name we are not allowed to print yet.' },
+  { id: 's5', stage: 'punk', start: '22:30', end: '23:15', name: 'TBA', role: 'SPECIAL GUEST', genre: 'CRUST', tba: true, blurb: 'Late outdoor set before the field closes and everything moves inside.' },
+  { id: 's6', stage: 'tekk', start: '23:00', end: '00:30', name: 'SDWA5 SOUNDSYSTEM', role: 'RAVE START', genre: 'TEKK', tba: false, blurb: 'Own rig, own rules. Sixteen stacks aimed at the concrete, warming the room from the floor up.' },
+  { id: 's7', stage: 'tekk', start: '00:30', end: '02:00', name: 'TBA', role: 'B2B SET', genre: 'HARDTEKK', tba: true, blurb: 'Back-to-back slot. Two names, one deck, announced with the second lineup drop.' },
+  { id: 's8', stage: 'tekk', start: '02:00', end: '04:00', name: 'GIFTGRUBE', role: 'PEAK TIME', genre: 'SCHRANZ', tba: false, blurb: 'Peak time. Relentless kicks, industrial loops, no melodic escape route.' },
+  { id: 's9', stage: 'tekk', start: '04:00', end: '06:00', name: 'BPM BERLIN', role: 'AFTER PEAK', genre: 'HARDTECHNO', tba: false, blurb: 'The stretch where the room thins out and the regulars take over the front.' },
+  { id: 's10', stage: 'tekk', start: '06:00', end: '08:00', name: 'TBA', role: 'CLOSING', genre: 'DOWNTEMPO', tba: true, blurb: 'Closing set into daylight. Slow, dubby, forgiving.' }
+];
+
+const TIERS = [
+  { id: 'early', name: 'EARLY RIOT', price: '€22', note: 'LIMITED / 200 ONLY' },
+  { id: 'regular', name: 'REGULAR', price: '€32', note: 'PRESALE UNTIL OCT 20' },
+  { id: 'solidarity', name: 'SOLIDARITY', price: '€45', note: 'FUNDS A FREE TICKET' }
+];
+
+class Component extends DCLogic {
+  state = { stage: 'all', genres: [], modalOpen: false, tab: 'punk', openSlot: null, tier: 'regular' };
+
+  componentDidMount() {
+    this._esc = (e) => { if (e.key === 'Escape') this.setState({ modalOpen: false }); };
+    window.addEventListener('keydown', this._esc);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this._esc); }
+
+  matches(slot) {
+    const s = this.state;
+    if (s.stage !== 'all' && slot.stage !== s.stage) return false;
+    if (s.genres.length && !s.genres.includes(slot.genre)) return false;
+    return true;
+  }
+
+  toggleGenre(g) {
+    this.setState((st) => ({
+      genres: st.genres.includes(g) ? st.genres.filter((x) => x !== g) : st.genres.concat([g])
+    }));
+  }
+
+  renderVals() {
+    const s = this.state;
+    const acts = SLOTS.filter((x) => x.role !== 'OPENING');
+    const visible = acts.filter((x) => this.matches(x));
+    const genres = [];
+    acts.forEach((a) => { if (!genres.includes(a.genre)) genres.push(a.genre); });
+    const stageLabel = (id) => (STAGES.find((x) => x.id === id) || {}).label || '';
+
+    const times = [];
+    SLOTS.forEach((x) => { if (!times.includes(x.start)) times.push(x.start); });
+    times.sort((a, b) => (parseInt(a) < 12 ? parseInt(a) + 24 : parseInt(a)) - (parseInt(b) < 12 ? parseInt(b) + 24 : parseInt(b)));
+
+    const cell = (stage, time) => SLOTS.find((x) => x.stage === stage && x.start === time);
+    const gridRows = times.map((t) => {
+      const p = cell('punk', t);
+      const k = cell('tekk', t);
+      const on = (x) => !!x && this.matches(x);
+      return {
+        time: t,
+        punkName: p ? p.name : '—',
+        punkMeta: p ? p.role + ' / ' + p.genre : '',
+        punkBg: on(p) ? '#000' : '#fff',
+        punkFg: on(p) ? '#fff' : (p ? '#1b1b1b' : '#cfc4c5'),
+        tekkName: k ? k.name : '—',
+        tekkMeta: k ? k.role + ' / ' + k.genre : '',
+        tekkBg: on(k) ? '#000' : '#fff',
+        tekkFg: on(k) ? '#fff' : (k ? '#1b1b1b' : '#cfc4c5')
+      };
+    });
+
+    return {
+      eventDate: this.props.eventDate ?? 'SAT / OCT 26',
+      eventVenue: this.props.eventVenue ?? 'SECRET LOCATION',
+      ctaLabel: this.props.soldOut ? 'WAITLIST' : 'TICKETS',
+      checkoutLabel: this.props.soldOut ? 'JOIN WAITLIST' : 'GO TO CHECKOUT',
+      visibleCountLabel: visible.length + ' / ' + acts.length + ' SETS SHOWN',
+      noResults: visible.length === 0,
+
+      stageFilters: [{ id: 'all', short: 'ALL STAGES' }].concat(STAGES.map((x) => ({ id: x.id, short: x.label })))
+        .map((x) => ({
+          label: x.short,
+          active: s.stage === x.id,
+          bg: s.stage === x.id ? '#000' : '#fff',
+          fg: s.stage === x.id ? '#fff' : '#000',
+          onSelect: () => this.setState({ stage: x.id })
+        })),
+
+      genreFilters: genres.map((g) => ({
+        label: g,
+        active: s.genres.includes(g),
+        bg: s.genres.includes(g) ? '#000' : 'transparent',
+        fg: s.genres.includes(g) ? '#fff' : '#1b1b1b',
+        onSelect: () => this.toggleGenre(g)
+      })),
+
+      visibleActs: visible.map((a) => ({
+        name: a.name,
+        start: a.start + '–' + a.end,
+        role: a.role,
+        genre: a.genre,
+        blurb: a.blurb,
+        stageLabel: stageLabel(a.stage)
+      })),
+
+      gridRows: gridRows,
+
+      stageTabs: STAGES.map((x) => ({
+        label: x.label,
+        active: s.tab === x.id,
+        bg: s.tab === x.id ? '#000' : '#fff',
+        fg: s.tab === x.id ? '#fff' : '#000',
+        onSelect: () => this.setState({ tab: x.id, openSlot: null })
+      })),
+
+      tabSlots: SLOTS.filter((x) => x.stage === s.tab).map((x) => ({
+        start: x.start,
+        name: x.name,
+        role: x.role,
+        genre: x.genre,
+        blurb: x.blurb,
+        window: x.start + '–' + x.end,
+        open: s.openSlot === x.id,
+        sign: s.openSlot === x.id ? '–' : '+',
+        onToggle: () => this.setState((st) => ({ openSlot: st.openSlot === x.id ? null : x.id }))
+      })),
+
+      tiers: TIERS.map((t) => ({
+        name: t.name,
+        price: t.price,
+        note: t.note,
+        bg: s.tier === t.id ? '#000' : '#fff',
+        fg: s.tier === t.id ? '#fff' : '#000',
+        onSelect: () => this.setState({ tier: t.id })
+      })),
+
+      modalOpen: s.modalOpen,
+      openTickets: () => this.setState({ modalOpen: true }),
+      closeTickets: () => this.setState({ modalOpen: false }),
+      stop: (e) => e.stopPropagation()
+    };
+  }
+}
+
+</script>
+</body>
+</html>
