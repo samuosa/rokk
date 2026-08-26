@@ -14,6 +14,7 @@ import { useLineupFilter } from '@/composables/useLineupFilter'
 import { useTicketModal } from '@/composables/useTicketModal'
 import { eventMeta } from '@/data/lineup'
 import { canonicalUrl } from '@/lib/site'
+import { musicEventJsonLd } from '@/lib/seo'
 
 const { modalOpen, ctaLabel, checkoutLabel, open, close } = useTicketModal()
 
@@ -26,27 +27,25 @@ const slotsFor = (id: 'punk' | 'tekk') => slotsByStage(id)
 
 const pageUrl = canonicalUrl('/')
 
+const title = `${eventMeta.title} — ${eventMeta.claim}`
+const description = `${eventMeta.title}: outdoor punk concert and tekk rave. ${eventMeta.date}, ${eventMeta.venue}.`
+
 useHead({
-  title: `${eventMeta.title} — ${eventMeta.claim}`,
+  title,
   meta: [
-    { name: 'description', content: `${eventMeta.title}: outdoor punk concert and tekk rave. ${eventMeta.date}, ${eventMeta.venue}.` },
-    { property: 'og:title', content: `${eventMeta.title} — ${eventMeta.claim}` },
+    { name: 'description', content: description },
+    { property: 'og:title', content: title },
+    { property: 'og:description', content: description },
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: pageUrl },
+    { name: 'twitter:title', content: title },
+    { name: 'twitter:description', content: description },
   ],
   link: [{ rel: 'canonical', href: pageUrl }],
   script: [{
     type: 'application/ld+json',
     // Prerendered structured data — crawlable without JS.
-    children: JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'MusicEvent',
-      name: `${eventMeta.title} — ${eventMeta.claim}`,
-      startDate: '2026-10-26T18:00',
-      eventStatus: 'https://schema.org/EventScheduled',
-      location: { '@type': 'Place', name: eventMeta.venue },
-      organizer: { '@type': 'Organization', name: 'ROKK' },
-    }),
+    children: JSON.stringify({ '@context': 'https://schema.org', ...musicEventJsonLd() }),
   }],
 })
 </script>

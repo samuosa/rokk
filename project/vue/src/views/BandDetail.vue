@@ -8,6 +8,7 @@ import TicketModal from '@/components/TicketModal.vue'
 import { eventMeta, findActBySlug, resolveActs } from '@/data/lineup'
 import { useTicketModal } from '@/composables/useTicketModal'
 import { canonicalUrl } from '@/lib/site'
+import { musicEventJsonLd } from '@/lib/seo'
 
 const route = useRoute()
 const { modalOpen, ctaLabel, checkoutLabel, open, close } = useTicketModal()
@@ -47,6 +48,8 @@ useHead(() => {
       { property: 'og:description', content: description },
       { property: 'og:type', content: 'profile' },
       { property: 'og:url', content: pageUrl },
+      { name: 'twitter:title', content: title },
+      { name: 'twitter:description', content: description },
     ],
     link: [{ rel: 'canonical', href: pageUrl }],
     script: a.band.tba
@@ -58,14 +61,8 @@ useHead(() => {
             '@type': 'MusicGroup',
             name: a.band.name,
             genre: a.band.genre,
-            performerIn: {
-              '@type': 'MusicEvent',
-              name: `${eventMeta.title} — ${eventMeta.claim}`,
-              startDate: '2026-10-26T18:00',
-              eventStatus: 'https://schema.org/EventScheduled',
-              location: { '@type': 'Place', name: eventMeta.venue },
-              organizer: { '@type': 'Organization', name: 'ROKK' },
-            },
+            url: pageUrl,
+            performerIn: musicEventJsonLd(),
           }),
         }],
   }

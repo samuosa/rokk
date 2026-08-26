@@ -44,9 +44,15 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
 
 writeFileSync(resolve(distDir, 'sitemap.xml'), sitemap)
 
+// robots.txt rules are origin-relative, so every Disallow has to carry the
+// deploy sub-path too ("/template" is at "/rokk/template" on a project site).
+// Note a project-site robots.txt sits at "/<repo>/robots.txt", which crawlers
+// do not read — only the origin root counts. The /template `noindex` meta tag
+// is what actually keeps it out of the index; this file is for the root deploy.
 const robotsPath = resolve(distDir, 'robots.txt')
 const existing = existsSync(robotsPath) ? readFileSync(robotsPath, 'utf-8').trimEnd() : 'User-agent: *\nDisallow: /template'
-writeFileSync(robotsPath, `${existing}\nSitemap: ${siteUrl}${basePath}/sitemap.xml\n`.replace(/([^:])\/\/+/g, '$1/'))
+const scoped = existing.replace(/^(Disallow:\s*)(\/\S*)$/gm, (_m, key, path) => `${key}${basePath}${path}`)
+writeFileSync(robotsPath, `${scoped}\nSitemap: ${siteUrl}${basePath}/sitemap.xml\n`.replace(/([^:])\/\/+/g, '$1/'))
 
 // eslint-disable-next-line no-console
 console.log(`[sitemap] wrote ${paths.length} URLs to dist/sitemap.xml (site: ${siteUrl}${basePath}/)`)
