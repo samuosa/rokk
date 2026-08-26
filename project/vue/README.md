@@ -78,9 +78,12 @@ control canonical URLs, Open Graph tags, the sitemap and the app's own routing b
 ### GitHub Pages (test)
 `.github/workflows/deploy.yml` (repo root) builds this app on every push to `main` and deploys
 `dist/` to GitHub Pages via `actions/deploy-pages`. It derives `VITE_BASE_PATH` and
-`VITE_SITE_URL` from the repository name automatically (`https://<owner>.github.io/<repo>/`) —
-no manual config needed once **Settings → Pages → Source** is set to **GitHub Actions** on the
-repo.
+`VITE_SITE_URL` from the repository name automatically (`https://<owner>.github.io/<repo>/`).
+
+No manual setup is needed: `actions/configure-pages` runs with `enablement: true`, so the
+workflow points the repo's Pages site at GitHub Actions itself using its `pages: write`
+permission (equivalent to setting **Settings → Pages → Source** to **GitHub Actions** by hand).
+A repo fork or a fresh clone deploys on its first push to `main`.
 
 ### Ionos (production)
 Build locally or in your own pipeline with the real domain and root base path, then upload

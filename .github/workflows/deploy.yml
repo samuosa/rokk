@@ -50,7 +50,13 @@ jobs:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/
           VITE_SITE_URL: https://${{ github.repository_owner }}.github.io
 
+      # enablement: true lets this workflow create/point the repo's Pages site at
+      # GitHub Actions itself (via the pages: write permission above), so a fresh
+      # repo deploys without anyone first flipping Settings -> Pages -> Source.
+      # It is a no-op once Pages is already configured that way.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
