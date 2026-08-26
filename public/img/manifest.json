@@ -1,0 +1,74 @@
+{
+  "coming-soon": {
+    "width": 1024,
+    "height": 1024,
+    "widths": [
+      480,
+      960
+    ],
+    "formats": {
+      "avif": [
+        "coming-soon-480.avif",
+        "coming-soon-960.avif"
+      ],
+      "webp": [
+        "coming-soon-480.webp",
+        "coming-soon-960.webp"
+      ]
+    }
+  },
+  "dresscode": {
+    "width": 1264,
+    "height": 1568,
+    "widths": [
+      480,
+      960
+    ],
+    "formats": {
+      "avif": [
+        "dresscode-480.avif",
+        "dresscode-960.avif"
+      ],
+      "webp": [
+        "dresscode-480.webp",
+        "dresscode-960.webp"
+      ]
+    }
+  },
+  "rokk-logo": {
+    "width": 1024,
+    "height": 1024,
+    "widths": [
+      480,
+      960
+    ],
+    "formats": {
+      "avif": [
+        "rokk-logo-480.avif",
+        "rokk-logo-960.avif"
+      ],
+      "webp": [
+        "rokk-logo-480.webp",
+        "rokk-logo-960.webp"
+      ]
+    }
+  },
+  "soundsystem": {
+    "width": 1024,
+    "height": 1024,
+    "widths": [
+      480,
+      960
+    ],
+    "formats": {
+      "avif": [
+        "soundsystem-480.avif",
+        "soundsystem-960.avif"
+      ],
+      "webp": [
+        "soundsystem-480.webp",
+        "soundsystem-960.webp"
+      ]
+    }
+  }
+}
